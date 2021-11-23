@@ -1,11 +1,26 @@
-Pred
+Predmet
 ----------
 id_p, name_p
 
 
-Stud
+Student
 ----------
-id_s, name_s, age_s, photo_s, start_date_s
+id_s, id_person, age_s, photo_s, start_date_s
+
+
+Prepod
+----------
+id, id_person, salary
+
+
+Person
+----------
+id_person, id_role, name, password, email
+
+
+Role
+----------
+id_role, role
 
 
 Mark
