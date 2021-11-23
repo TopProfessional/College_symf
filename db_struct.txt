@@ -15,7 +15,7 @@ id, id_person, salary
 
 Person
 ----------
-id_person, id_role, name, password, email
+id, roles, name, password, email
 
 
 Role

@@ -1,0 +1,18 @@
+fos_user:
+  # Le type de BDD à utiliser, nous utilisons l'ORM Doctrine depuis le début
+  db_driver:     orm
+  # Le nom du firewall derrière lequel on utilisera ces utilisateurs
+  firewall_name: jon
+  # La classe de l'entité User que nous utilisons
+  user_class:    App\Entity\User
+  from_email:
+    address: "%env(SENDER_ADDRESS)%"
+    sender_name: "%env(SENDER_ADDRESS)%"
+  profile:
+    form:
+      validation_groups:  [Default] # Here you can also add your own groups if you have extra validation
+  registration:
+    form:
+      validation_groups:  [Default] # Here you can also add your own groups if you have extra validation
+  service:
+    mailer: fos_user.mailer.twig_swift
