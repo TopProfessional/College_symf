@@ -1,0 +1,13 @@
+Pred
+----------
+id_p, name_p
+
+
+Stud
+----------
+id_s, name_s, age_s, photo_s, start_date_s
+
+
+Mark
+----------
+id_p, id_s, mark 
