@@ -1,28 +1,92 @@
-Predmet
+Course
 ----------
-id_p, name_p
+id, name, description, students, teachers
 
+courses (many to many, inverse side) Student
+courses (many to many, inverse side) teachers
 
 Student
 ----------
-id_s, id_person, age_s, photo_s, start_date_s
+id, user_id, age, photo, start_date, courses
 
+Список предмето по которым учится
+Список преподов у которых учится
+Просмотр предмета в котором учится
+(название, описание, список студентов, список преподавателей, оценка либо надпись об отсутвии)
+Для преподов у которых учится должна быть ссылка на просмотр каоточки препода(имя преподавателя и его курсы), 
+курсы к которым имеет доступ студент должны иметь ссылку на карточку курса
 
-Prepod
+Student (one to one) User
+Student (many to many, owner side) courses
+
+Teacher
 ----------
-id, id_person, salary
+id, user_id, salary, courses
 
+Списук преподаваемых курсов, 
+при клике на карточку курса видно название описание и список студентов, 
+видна оценка студента, crud оценок студента
 
-Person
+teacher (one to one) User
+teacher (many to many, owner side) courses
+
+User
 ----------
 id, roles, name, password, email
 
 
 Role
 ----------
-id_role, role
+Админ делает crud курсов, назначает преподов и студентов в курсы
 
 
 Mark
 ----------
-id_p, id_s, mark 
+id, mark ; teacher_id, student_id
+
+mark (many to one) student
+mark (many to one) teacher
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=180, unique=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;

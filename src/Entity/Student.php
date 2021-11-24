@@ -42,6 +42,11 @@ class Student
      */
     private $start_date;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $user_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,4 +111,40 @@ class Student
 
         return $this;
     }
+
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $user_id): self
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+
+    /**
+     * Student (many to many, owner side) Course
+     * 
+     * @ORM\Column(type="ManyToMany")
+     */
+    private $courses;
+
+    public function addCourse(Course $course)
+    {
+        $course->addStudent($this);  // synchronously updating inverse side
+        $this->$courses[] = $course;
+    }
+
+
+
+
+    /**
+     * One Student it is one User.
+     * @OneToOne(targetEntity="User")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
 }

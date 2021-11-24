@@ -11,6 +11,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    const ROLE_USER = "ROLE_USER";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -27,6 +29,12 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
 
     /**
      * @var string The hashed password
@@ -58,7 +66,14 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->name;
+    }
+
+    public function setUsername(string $name): string
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -68,7 +83,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = self::ROLE_USER;
 
         return array_unique($roles);
     }
