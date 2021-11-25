@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TeacherRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +24,22 @@ class Teacher
      */
     private $salary;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="teacher")
+     */
+    private $courses;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -40,26 +58,43 @@ class Teacher
     }
 
 
-    /**
-     * Teacher (many to many, owner side) Course
-     * 
-     * @ORM\Column(type="ManyToMany")
-     */
-    private $courses;
 
-    public function addCourse(Course $course)
+    /**
+     * @return Collection|Course[]
+     */
+    public function getCourses(): Collection
     {
-        $course->addTeacher($this);  // synchronously updating inverse side
-        $this->$courses[] = $course;
+        return $this->courses;
     }
 
+    public function addCourse(Course $course): self
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->addTeacher($this);
+        }
 
+        return $this;
+    }
 
+    public function removeCourse(Course $course): self
+    {
+        if ($this->courses->removeElement($course)) {
+            $course->removeTeacher($this);
+        }
 
-    /**
-     * One Teacher it is one User.
-     * @OneToOne(targetEntity="User")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    private $user;
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

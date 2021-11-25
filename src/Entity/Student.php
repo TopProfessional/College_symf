@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,10 +44,26 @@ class Student
      */
     private $start_date;
 
+    // /**
+    //  * @ORM\Column(type="integer")
+    //  */
+    // private $user_id;
+
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="student")
      */
-    private $user_id;
+    private $courses;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -112,39 +130,56 @@ class Student
         return $this;
     }
 
-    public function getUserId(): ?int
+    // public function getUserId(): ?int
+    // {
+    //     return $this->user_id;
+    // }
+
+    // public function setUserId(int $user_id): self
+    // {
+    //     $this->user_id = $user_id;
+
+    //     return $this;
+    // }
+
+
+
+    /**
+     * @return Collection|Course[]
+     */
+    public function getCourses(): Collection
     {
-        return $this->user_id;
+        return $this->courses;
     }
 
-    public function setUserId(int $user_id): self
+    public function addCourse(Course $course): self
     {
-        $this->user_id = $user_id;
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->addStudent($this);
+        }
 
         return $this;
     }
 
-
-    /**
-     * Student (many to many, owner side) Course
-     * 
-     * @ORM\Column(type="ManyToMany")
-     */
-    private $courses;
-
-    public function addCourse(Course $course)
+    public function removeCourse(Course $course): self
     {
-        $course->addStudent($this);  // synchronously updating inverse side
-        $this->$courses[] = $course;
+        if ($this->courses->removeElement($course)) {
+            $course->removeStudent($this);
+        }
+
+        return $this;
     }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
 
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
-
-    /**
-     * One Student it is one User.
-     * @OneToOne(targetEntity="User")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
-     */
-    private $user;
+        return $this;
+    }
 }

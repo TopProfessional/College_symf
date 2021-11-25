@@ -22,6 +22,18 @@ class Mark
      */
     private $mark;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Teacher::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $teacher;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Student::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $student;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -41,17 +53,27 @@ class Mark
 
 
 
-    /**
-     * @ManyToOne(targetEntity="Student")
-     * @JoinColumn(name="student_id", referencedColumnName="id")
-     */
-    private $student;
+    public function getTeacher(): ?Teacher
+    {
+        return $this->teacher;
+    }
 
+    public function setTeacher(?Teacher $teacher): self
+    {
+        $this->teacher = $teacher;
 
+        return $this;
+    }
 
-    /**
-     * @ManyToOne(targetEntity="Teacher")
-     * @JoinColumn(name="teacher_id", referencedColumnName="id")
-     */
-    private $teacher;
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
+
+        return $this;
+    }
 }
