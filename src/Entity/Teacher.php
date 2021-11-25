@@ -12,12 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Teacher
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use SameId;
+    
+    // /**
+    //  * @ORM\Id
+    //  * @ORM\GeneratedValue
+    //  * @ORM\Column(type="integer")
+    //  */
+    // private $id;
 
     /**
      * @ORM\Column(type="float")
@@ -40,10 +42,10 @@ class Teacher
         $this->courses = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    // public function getId(): ?int
+    // {
+    //     return $this->id;
+    // }
 
     public function getSalary(): ?float
     {

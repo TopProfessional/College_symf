@@ -12,12 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Student
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use SameId;
+    
+    // /**
+    //  * @ORM\Id
+    //  * @ORM\GeneratedValue
+    //  * @ORM\Column(type="integer")
+    //  */
+    // private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -44,11 +46,7 @@ class Student
      */
     private $start_date;
 
-    // /**
-    //  * @ORM\Column(type="integer")
-    //  */
-    // private $user_id;
-
+   
     /**
      * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="student")
      */
@@ -65,10 +63,10 @@ class Student
         $this->courses = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    // public function getId(): ?int
+    // {
+    //     return $this->id;
+    // }
 
     public function getName(): ?string
     {
@@ -129,19 +127,6 @@ class Student
 
         return $this;
     }
-
-    // public function getUserId(): ?int
-    // {
-    //     return $this->user_id;
-    // }
-
-    // public function setUserId(int $user_id): self
-    // {
-    //     $this->user_id = $user_id;
-
-    //     return $this;
-    // }
-
 
 
     /**

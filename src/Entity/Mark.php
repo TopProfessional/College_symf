@@ -10,12 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Mark
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use SameId;
+
+    // /**
+    //  * @ORM\Id
+    //  * @ORM\GeneratedValue
+    //  * @ORM\Column(type="integer")
+    //  */
+    // private $id;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -34,10 +36,10 @@ class Mark
      */
     private $student;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    // public function getId(): ?int
+    // {
+    //     return $this->id;
+    // }
 
     public function getMark(): ?int
     {
