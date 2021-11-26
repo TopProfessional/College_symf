@@ -16,7 +16,7 @@ class StudentType extends AbstractType
             ->add('age')
             ->add('photo')
             ->add('mark')
-            ->add('start_date')
+            ->add('startDate')
         ;
     }
 
