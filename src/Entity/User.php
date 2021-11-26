@@ -6,36 +6,17 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-
-trait SameId {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-}
-
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
 {
     const ROLE_USER = "ROLE_USER";
+    const ROLE_ADMIN = "ROLE_ADMIN";
+    const ROLE_TEACHER = "ROLE_TEACHER";
+    const ROLE_STUDENT = "ROLE_STUDENT";
 
-    use SameId;
-
-    // /**
-    //  * @ORM\Id
-    //  * @ORM\GeneratedValue
-    //  * @ORM\Column(type="integer")
-    //  */
-    // private $id;
+    use MyIdTrait;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -58,11 +39,6 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
-
-    // public function getId(): ?int
-    // {
-    //     return $this->id;
-    // }
 
     public function getEmail(): ?string
     {
@@ -101,6 +77,9 @@ class User implements UserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = self::ROLE_USER;
+        $roles[] = self::ROLE_ADMIN;
+        $roles[] = self::ROLE_TEACHER;
+        $roles[] = self::ROLE_STUDENT;
 
         return array_unique($roles);
     }

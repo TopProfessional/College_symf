@@ -12,15 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Teacher
 {
-    use SameId;
-    
-    // /**
-    //  * @ORM\Id
-    //  * @ORM\GeneratedValue
-    //  * @ORM\Column(type="integer")
-    //  */
-    // private $id;
-
+    use MyIdTrait;
+  
     /**
      * @ORM\Column(type="float")
      */
@@ -42,11 +35,6 @@ class Teacher
         $this->courses = new ArrayCollection();
     }
 
-    // public function getId(): ?int
-    // {
-    //     return $this->id;
-    // }
-
     public function getSalary(): ?float
     {
         return $this->salary;
@@ -58,8 +46,6 @@ class Teacher
 
         return $this;
     }
-
-
 
     /**
      * @return Collection|Course[]

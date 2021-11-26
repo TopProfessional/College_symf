@@ -7,7 +7,7 @@ courses (many to many, inverse side) teachers
 
 Student
 ----------
-id, user_id, age, photo, start_date, courses
+id, user_id, age, photo, startDate, courses
 
 Список предмето по которым учится
 Список преподов у которых учится

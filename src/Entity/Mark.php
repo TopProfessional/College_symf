@@ -10,14 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Mark
 {
-    use SameId;
-
-    // /**
-    //  * @ORM\Id
-    //  * @ORM\GeneratedValue
-    //  * @ORM\Column(type="integer")
-    //  */
-    // private $id;
+    use MyIdTrait;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -36,11 +29,6 @@ class Mark
      */
     private $student;
 
-    // public function getId(): ?int
-    // {
-    //     return $this->id;
-    // }
-
     public function getMark(): ?int
     {
         return $this->mark;
@@ -52,8 +40,6 @@ class Mark
 
         return $this;
     }
-
-
 
     public function getTeacher(): ?Teacher
     {

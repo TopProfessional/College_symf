@@ -7,21 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-require_once('User.php');
-
 /**
  * @ORM\Entity(repositoryClass=CourseRepository::class)
  */
 class Course
 {
-    use SameId;
-
-    // /**
-    //  * @ORM\Id
-    //  * @ORM\GeneratedValue
-    //  * @ORM\Column(type="integer")
-    //  */
-    // private $id;
+    use MyIdTrait;
 
     /**
      * @ORM\Column(type="string", length=40)
@@ -36,23 +27,18 @@ class Course
     /**
      * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="courses")
      */
-    private $student;
+    private $students;
 
     /**
      * @ORM\ManyToMany(targetEntity=Teacher::class, inversedBy="courses")
      */
-    private $teacher;
+    private $teachers;
 
     public function __construct()
     {
-        $this->student = new ArrayCollection();
-        $this->teacher = new ArrayCollection();
+        $this->students = new ArrayCollection();
+        $this->teachers = new ArrayCollection();
     }
-
-    // public function getId(): ?int
-    // {
-    //     return $this->id;
-    // }
 
     public function getName(): ?string
     {
@@ -78,20 +64,18 @@ class Course
         return $this;
     }
 
-    
-
     /**
      * @return Collection|Student[]
      */
-    public function getStudent(): Collection
+    public function getStudents(): Collection
     {
-        return $this->student;
+        return $this->students;
     }
 
     public function addStudent(Student $student): self
     {
-        if (!$this->student->contains($student)) {
-            $this->student[] = $student;
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
         }
 
         return $this;
@@ -99,7 +83,7 @@ class Course
 
     public function removeStudent(Student $student): self
     {
-        $this->student->removeElement($student);
+        $this->students->removeElement($student);
 
         return $this;
     }
@@ -107,15 +91,15 @@ class Course
     /**
      * @return Collection|Teacher[]
      */
-    public function getTeacher(): Collection
+    public function getTeachers(): Collection
     {
-        return $this->teacher;
+        return $this->teachers;
     }
 
     public function addTeacher(Teacher $teacher): self
     {
-        if (!$this->teacher->contains($teacher)) {
-            $this->teacher[] = $teacher;
+        if (!$this->teachers->contains($teacher)) {
+            $this->teachers[] = $teacher;
         }
 
         return $this;
@@ -123,7 +107,7 @@ class Course
 
     public function removeTeacher(Teacher $teacher): self
     {
-        $this->teacher->removeElement($teacher);
+        $this->teachers->removeElement($teacher);
 
         return $this;
     }
