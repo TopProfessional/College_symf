@@ -26,15 +26,6 @@ class StudentController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * @Route("/check", name="check", requirements={"id":"\d+"})
-    //  */
-    // public function check(): Response
-    // {
-    //    return $this->render('student/check.html.twig');
-    // }
-
-
     /**
      * @Route("/new", name="student_new", methods={"GET", "POST"})
      */
@@ -99,6 +90,4 @@ class StudentController extends AbstractController
 
         return $this->redirectToRoute('student_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    
 }
