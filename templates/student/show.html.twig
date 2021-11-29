@@ -8,10 +8,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ student.id }}</td>
-            </tr>
-            <tr>
                 <th>Name</th>
                 <td>{{ student.name }}</td>
             </tr>
@@ -28,8 +24,12 @@
                 <td>{{ student.mark }}</td>
             </tr>
             <tr>
-                <th>Start_date</th>
+                <th>StartDate</th>
                 <td>{{ student.startDate ? student.startDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ student.id }}</td>
             </tr>
         </tbody>
     </table>
