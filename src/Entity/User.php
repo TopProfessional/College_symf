@@ -31,7 +31,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string")
      */
-    private $name;
+    private $username;
 
 
     /**
@@ -59,12 +59,12 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->name;
+        return (string) $this->username;
     }
 
-    public function setUsername(string $name): string
+    public function setUsername(string $username)//: string Почему возвращает обьект??????????????
     {
-        $this->name = $name;
+        $this->username = $username;
 
         return $this;
     }
@@ -72,16 +72,19 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public function getRoles(): ?string //array//
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = self::ROLE_USER;
-        $roles[] = self::ROLE_ADMIN;
-        $roles[] = self::ROLE_TEACHER;
-        $roles[] = self::ROLE_STUDENT;
+        //$roles[] = self::ROLE_USER;
+        // $roles[] = self::ROLE_ADMIN;
+        // $roles[] = self::ROLE_TEACHER;
+        // $roles[] = self::ROLE_STUDENT;
 
-        return array_unique($roles);
+        $roles[] = self::ROLE_USER;
+
+        return implode(",", array_unique($roles));
+        //return $roles;
     }
 
     public function setRoles(array $roles): self
@@ -94,7 +97,7 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
