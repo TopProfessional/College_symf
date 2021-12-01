@@ -26,7 +26,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles;// = [];
+    private $roles = [];// ;
 
     /**
      * @ORM\Column(type="string", unique=true)
@@ -73,38 +73,28 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles()//: ?string //?array//
+    public function getRoles(): ?array////?string //
     {
-       // $roles = array();
-        //$roles[] = $this->roles;
+        $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        //$roles[] = self::ROLE_USER;
-        // $roles[] = self::ROLE_ADMIN;
-        // $roles[] = self::ROLE_TEACHER;
-        // $roles[] = self::ROLE_STUDENT;
+        $roles[] = 'ROLE_USER';
 
-       // $roles[] = self::ROLE_USER;
-
-        //return implode(",", array_unique($roles));
-        //$dc2array = serialize($this->roles);
-        //return $dc2array;
-        //return "fff";
-        return $this->roles;
+        return array_unique($roles);
     }
 
-    // public function setRoles(array $roles): self
-    // {
-    //     $this->roles = $roles;
-
-    //     return $this;
-    // }
-    public function setRoles( $roles): self
+    public function setRoles(array $roles): self
     {
-        $old = $this->getRoles();
-        $this->roles = $old + $roles;
+        $this->roles = $roles;
 
         return $this;
     }
+    // public function setRoles( $roles): self
+    // {
+    //     $old = $this->getRoles();
+    //     $this->roles = $old + $roles;
+
+    //     return $this;
+    // }
 
     /**
      * @see UserInterface
