@@ -14,10 +14,10 @@ class Student
 {
     use MyIdTrait;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $name;
+    // /**
+    //  * @ORM\Column(type="string", length=100)
+    //  */
+    // private $name;
 
     /**
      * @ORM\Column(type="integer")
@@ -55,17 +55,17 @@ class Student
         $this->courses = new ArrayCollection();
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+    // public function getName(): ?string
+    // {
+    //     return $this->name;
+    // }
 
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+    // public function setName(string $name): self
+    // {
+    //     $this->name = $name;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getAge(): ?int
     {
