@@ -12,52 +12,44 @@ use Symfony\Component\Form\CallbackTransformer;
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
-    // {
-    //     $builder
-    //         ->add('email')
-    //         ->add('roles', ChoiceType::class,  [
-    //             'multiple' => true,
-    //             //'multiple' => false,
-    //             'expanded' => false,
-    //             'choices' => [
-    //                 'User' => 'ROLE_USER',
-    //                 'Admin' => 'ROLE_ADMIN',
-    //                 'Teacher' => 'ROLE_TEACHER',
-    //                 'Student' => 'ROLE_STUDENT'
-    //             ]
-    //         ])
-    //         ->add('username')
-    //         ->add('password')
-    //     ;
-    // }
-
     {
         $builder
-        ->add('email')
-        ->add('roles', ChoiceType::class, [
-            'label' => 'roles',
-            'multiple' => true,
-            'expanded' => false,
-            
-            'choices' => [
-                                'User' => 'ROLE_USER',
-                                'Admin' => 'ROLE_ADMIN',
-                                'Teacher' => 'ROLE_TEACHER',
-                                'Student' => 'ROLE_STUDENT'
-                            ],
-            'translation_domain' => 'common',
-            'label_attr' => ['class' => 'cursor_text'],
-            'attr' => [
-                'style' => 'some style'
-            ]
-        ])
-        // ->add('check_box1')
-        ->add('username')
-        ->add('password')
-    ;
- 
+            ->add('email')
+            ->add('roles', ChoiceType::class,  [
+                //'multiple' => true,
+                'multiple' => false,
+                'expanded' => false,
+                'required' => true,
+                'choices' => [
+                    'User' => 'ROLE_USER',
+                    'Admin' => 'ROLE_ADMIN',
+                    'Teacher' => 'ROLE_TEACHER',
+                    'Student' => 'ROLE_STUDENT'
+                ]
+            ])
+            ->add('username')
+            ->add('password')
+        ;
+
+        // roles field data transformer
+
+       $builder->get('roles')
+                ->addModelTransformer(new CallbackTransformer(
+                    function ($rolesArray) {
+
+                            // transform the array to a string
+                            return count($rolesArray)? $rolesArray[0]: null;
+                    },
+
+                    function ($rolesString) {
+
+                            // transform the string back to an array
+                            return [$rolesString];
+                    }
+                ));
     }
 
+    
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
