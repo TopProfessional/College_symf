@@ -26,10 +26,10 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private $roles;// = [];
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      */
     private $username;
 
@@ -64,6 +64,7 @@ class User implements UserInterface
 
     public function setUsername(string $username)//: string Почему возвращает обьект??????????????
     {
+        //$old = $this->getUsername();
         $this->username = $username;
 
         return $this;
@@ -72,24 +73,35 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): ?string //array//
+    public function getRoles()//: ?string //?array//
     {
-        $roles = $this->roles;
+       // $roles = array();
+        //$roles[] = $this->roles;
         // guarantee every user at least has ROLE_USER
         //$roles[] = self::ROLE_USER;
         // $roles[] = self::ROLE_ADMIN;
         // $roles[] = self::ROLE_TEACHER;
         // $roles[] = self::ROLE_STUDENT;
 
-        $roles[] = self::ROLE_USER;
+       // $roles[] = self::ROLE_USER;
 
-        return implode(",", array_unique($roles));
-        //return $roles;
+        //return implode(",", array_unique($roles));
+        //$dc2array = serialize($this->roles);
+        //return $dc2array;
+        //return "fff";
+        return $this->roles;
     }
 
-    public function setRoles(array $roles): self
+    // public function setRoles(array $roles): self
+    // {
+    //     $this->roles = $roles;
+
+    //     return $this;
+    // }
+    public function setRoles( $roles): self
     {
-        $this->roles = $roles;
+        $old = $this->getRoles();
+        $this->roles = $old + $roles;
 
         return $this;
     }
