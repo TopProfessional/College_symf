@@ -25,12 +25,12 @@ class Course
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="courses")
+     * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="courses") // was courses
      */
     private $students;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Teacher::class, inversedBy="courses")
+     * @ORM\ManyToMany(targetEntity=Teacher::class, inversedBy="courses") // was courses
      */
     private $teachers;
 
@@ -110,5 +110,10 @@ class Course
         $this->teachers->removeElement($teacher);
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->name;
     }
 }
