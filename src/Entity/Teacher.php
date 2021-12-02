@@ -20,7 +20,7 @@ class Teacher
     private $salary;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="teacher")
+     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="teachers") //was teacher
      */
     private $courses;
 

@@ -40,7 +40,7 @@ class Student
     private $startDate;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="student")
+     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="students") //was student
      */
     private $courses;
 
@@ -153,5 +153,10 @@ class Student
         $this->user = $user;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->user;
     }
 }
