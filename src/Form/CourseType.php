@@ -14,9 +14,10 @@ class CourseType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('students', CollectionType::class, [
+            ->add('students',  CollectionType::class, [
                 // ...
                 'allow_delete' => true,
+                'by_reference' => true
             ])
             ->add('teachers')
         ;

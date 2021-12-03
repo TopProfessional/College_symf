@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Course;
 use App\Entity\Student;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +19,11 @@ class StudentType extends AbstractType
             ->add('photo')
             ->add('mark')
             ->add('startDate')
-            ->add('courses')
+            ->add('courses', EntityType::class , [
+                'class' => Course::class,
+                'by_reference' => false,
+                'multiple' => true,
+            ])
             ->add('user')
         ;
     }
