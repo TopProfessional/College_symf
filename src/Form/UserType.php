@@ -3,11 +3,11 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\CallbackTransformer;
 
 class UserType extends AbstractType
 {
@@ -21,10 +21,10 @@ class UserType extends AbstractType
                 'expanded' => false,
                 'required' => true,
                 'choices' => [
-                    'User' => 'ROLE_USER',
-                    'Admin' => 'ROLE_ADMIN',
-                    'Teacher' => 'ROLE_TEACHER',
-                    'Student' => 'ROLE_STUDENT'
+                    'User'    => User::ROLE_USER,
+                    'Admin'   => User::ROLE_ADMIN,
+                    'Teacher' => User::ROLE_TEACHER,
+                    'Student' => User::ROLE_STUDENT,
                 ]
             ])
             ->add('username')
@@ -49,7 +49,7 @@ class UserType extends AbstractType
                 ));
     }
 
-    
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

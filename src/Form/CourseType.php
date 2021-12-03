@@ -17,6 +17,7 @@ class CourseType extends AbstractType
             ->add('students', CollectionType::class, [
                 // ...
                 'allow_delete' => true,
+                'by_reference' => true
             ])
             ->add('teachers')
         ;

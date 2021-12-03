@@ -76,6 +76,7 @@ class Course
     {
         if (!$this->students->contains($student)) {
             $this->students[] = $student;
+            $student->addCourse($this);
         }
 
         return $this;

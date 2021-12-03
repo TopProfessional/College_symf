@@ -9,7 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StudentType extends AbstractType
+class StudentWithUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -24,7 +24,7 @@ class StudentType extends AbstractType
                 'by_reference' => false,
                 'multiple' => true,
             ])
-            ->add('user')
+            ->add('user', UserType::class)
         ;
     }
 

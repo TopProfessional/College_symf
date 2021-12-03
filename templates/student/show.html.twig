@@ -28,6 +28,16 @@
                 <th>Id</th>
                 <td>{{ student.id }}</td>
             </tr>
+            <tr>
+                <th>Courses</th>
+                <td>
+                    <ul>
+                    {% for course in student.courses %}
+                        <li>{{ course }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
 
