@@ -3,21 +3,19 @@
 namespace App\Form;
 
 use App\Entity\Course;
-use App\Entity\Student;
+use App\Entity\Teacher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StudentWithUserType extends AbstractType
+class TeacherWithUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('age')
-            ->add('photo')
-            ->add('startDate')
-            ->add('courses', EntityType::class , [
+            ->add('salary')
+            ->add('courses', EntityType::class, [
                 'class' => Course::class,
                 'by_reference' => false,
                 'multiple' => true,
@@ -29,7 +27,7 @@ class StudentWithUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Student::class,
+            'data_class' => Teacher::class,
         ]);
     }
 }

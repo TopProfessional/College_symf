@@ -30,11 +30,6 @@ class Student
     private $photo;
 
     /**
-     * @ORM\Column(type="float")
-     */
-    private $mark;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $startDate;
@@ -54,18 +49,6 @@ class Student
     {
         $this->courses = new ArrayCollection();
     }
-
-    // public function getName(): ?string
-    // {
-    //     return $this->name;
-    // }
-
-    // public function setName(string $name): self
-    // {
-    //     $this->name = $name;
-
-    //     return $this;
-    // }
 
     public function getAge(): ?int
     {
@@ -87,18 +70,6 @@ class Student
     public function setPhoto(?string $photo): self
     {
         $this->photo = $photo;
-
-        return $this;
-    }
-
-    public function getMark(): ?float
-    {
-        return $this->mark;
-    }
-
-    public function setMark(float $mark): self
-    {
-        $this->mark = $mark;
 
         return $this;
     }

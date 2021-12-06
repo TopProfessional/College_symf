@@ -29,6 +29,16 @@
                     </ul>
                 </td>
             </tr>
+            <tr>
+                <th>Teachers</th>
+                <td>
+                    <ul>
+                        {% for teacher in course.teachers %}
+                            <li>{{ teacher }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
 

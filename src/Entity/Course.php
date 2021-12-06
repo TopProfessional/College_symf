@@ -101,6 +101,7 @@ class Course
     {
         if (!$this->teachers->contains($teacher)) {
             $this->teachers[] = $teacher;
+            $teacher->addCourse($this);
             
         }
 
