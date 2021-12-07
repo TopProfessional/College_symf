@@ -11,12 +11,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/students")
  */
 class StudentController extends AbstractController
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * @Route("/", name="student_index", methods={"GET"})
      */
@@ -37,6 +45,17 @@ class StudentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            // $plainpwd = $user->getPassword(); было
+            // $plainpwd = $student->user->getPassword(); стало?
+            
+            // // Encoder
+            
+            // $plainpwd = $user->getPassword();
+            // $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
+            // $user->setPassword($encoded);   
+
             $entityManager->persist($student);
             $entityManager->flush();
 

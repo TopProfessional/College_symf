@@ -10,12 +10,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/users")
  */
 class UserController extends AbstractController
 {
+    private $passwordEncoder;
+    private $security;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, Security $security)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+        $this->security = $security;
+    }
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
@@ -36,6 +47,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Encoder
+            
+            $plainpwd = $user->getPassword();
+            $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
+            $user->setPassword($encoded);   
+
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -45,6 +63,25 @@ class UserController extends AbstractController
         return $this->render('user/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/cabinet", name="user_cabinet")
+     */
+    public function enterToTheCabinet( ): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        
+        //$user = $this->getUser();
+        $user = $this->security->getUser();
+
+        //$email = $user->getEmail();
+
+        return $this->render('cabinet/index.html.twig', [
+            //'email' => $email,
+            'user' => $user,
         ]);
     }
 
@@ -67,6 +104,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Encoder
+            
+            $plainpwd = $user->getPassword();
+            $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
+            $user->setPassword($encoded);
+
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
@@ -90,4 +135,5 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
