@@ -19,6 +19,26 @@
                 <th>Id</th>
                 <td>{{ course.id }}</td>
             </tr>
+            <tr>
+                <th>Students</th>
+                <td>
+                    <ul>
+                        {% for student in course.students %}
+                            <li>{{ student }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Teachers</th>
+                <td>
+                    <ul>
+                        {% for teacher in course.teachers %}
+                            <li>{{ teacher }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
         </tbody>
     </table>
 
