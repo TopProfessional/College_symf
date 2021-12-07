@@ -17,7 +17,11 @@ class StudentType extends AbstractType
             ->add('age')
             ->add('photo')
             ->add('startDate')
+<<<<<<< HEAD
             ->add('courses', EntityType::class, [
+=======
+            ->add('courses', EntityType::class , [
+>>>>>>> ca1dbeb090c1917530f4a604a47d5d297dafbde5
                 'class' => Course::class,
                 'by_reference' => false,
                 'multiple' => true,

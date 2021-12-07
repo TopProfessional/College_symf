@@ -8,7 +8,10 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+<<<<<<< HEAD
 
+=======
+>>>>>>> ca1dbeb090c1917530f4a604a47d5d297dafbde5
 
 class UserType extends AbstractType
 {
@@ -50,7 +53,7 @@ class UserType extends AbstractType
     //             ));
      }
 
-    
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
