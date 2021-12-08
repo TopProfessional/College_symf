@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\CourseRepository;
@@ -17,12 +19,12 @@ class Course
     /**
      * @ORM\Column(type="string", length=40)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $description;
+    private ?string $description = null;
 
     /**
      * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="courses") // was courses

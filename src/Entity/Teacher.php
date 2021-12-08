@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\TeacherRepository;
@@ -17,7 +19,7 @@ class Teacher
     /**
      * @ORM\Column(type="float")
      */
-    private $salary;
+    private ?float $salary = null;
 
     /**
      * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="teachers") //was teacher
@@ -28,7 +30,7 @@ class Teacher
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     public function __construct()
     {

@@ -42,19 +42,22 @@ Role
 
 Mark
 ----------
-id, mark ; teacher_id, student_id
+id, mark, teacher_id, student_id, course_id
 
 mark (many to one) student
 mark (many to one) teacher
 
 
+Class
+----------
+id, name, teacher(teacher_id), student(student_id)
 
 
 
 
-
-
-
+tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
 
 
