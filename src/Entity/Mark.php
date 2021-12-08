@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\MarkRepository;
@@ -15,7 +17,7 @@ class Mark
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $mark;
+    private ?int $mark=null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Teacher::class)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
@@ -14,25 +16,20 @@ class Student
 {
     use MyIdTrait;
 
-    // /**
-    //  * @ORM\Column(type="string", length=100)
-    //  */
-    // private $name;
-
     /**
      * @ORM\Column(type="integer")
      */
-    private $age;
+    private ?int $age = null;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
-    private $photo;
+    private ?string $photo = null;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $startDate;
+    private ?\DateTime $startDate;
 
     /**
      * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="students") //was student
@@ -43,7 +40,7 @@ class Student
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user = null;
 
     public function __construct()
     {

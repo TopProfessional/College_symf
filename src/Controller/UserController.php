@@ -66,24 +66,24 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/cabinet", name="user_cabinet")
-     */
-    public function enterToTheCabinet( ): Response
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    // /**
+    //  * @Route("/cabinet", name="user_cabinet")
+    //  */
+    // public function enterToTheCabinet( ): Response
+    // {
+    //     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         
-        //$user = $this->getUser();
-        $user = $this->security->getUser();
+    //     //$user = $this->getUser();
+    //     $user = $this->security->getUser();
 
-        //$email = $user->getEmail();
+    //     //$email = $user->getEmail();
 
-        return $this->render('cabinet/index.html.twig', [
-            //'email' => $email,
-            'user' => $user,
-        ]);
-    }
+    //     return $this->render('cabinet/index.html.twig', [
+    //         //'email' => $email,
+    //         'user' => $user,
+    //     ]);
+    // }
 
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
