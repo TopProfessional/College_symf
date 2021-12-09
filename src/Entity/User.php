@@ -91,13 +91,6 @@ class User implements UserInterface
 
         return $this;
     }
-    // public function setRoles( $roles): self
-    // {
-    //     $old = $this->getRoles();
-    //     $this->roles = $old + $roles;
-
-    //     return $this;
-    // }
 
     /**
      * @see UserInterface

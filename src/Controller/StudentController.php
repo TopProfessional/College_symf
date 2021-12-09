@@ -46,16 +46,6 @@ class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-            // $plainpwd = $user->getPassword(); было
-            // $plainpwd = $student->user->getPassword(); стало?
-            
-            // // Encoder
-            
-            // $plainpwd = $user->getPassword();
-            // $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
-            // $user->setPassword($encoded);   
-
             $entityManager->persist($student);
             $entityManager->flush();
 
