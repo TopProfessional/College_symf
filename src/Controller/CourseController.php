@@ -37,9 +37,9 @@ class CourseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($course);
-            $entityManager->flush();
+            // $entityManager->flush();
 
-            return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('course/new.html.twig', [

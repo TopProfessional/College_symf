@@ -50,9 +50,9 @@ class UserController extends AbstractController
 
             // Encoder
             
-            $plainpwd = $user->getPassword();
-            $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
-            $user->setPassword($encoded);   
+            // $plainpwd = $user->getPassword();
+            // $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
+            // $user->setPassword($encoded);   
 
             $entityManager->persist($user);
             $entityManager->flush();
