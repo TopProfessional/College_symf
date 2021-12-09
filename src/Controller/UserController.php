@@ -46,13 +46,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // Encoder
-            
-            $plainpwd = $user->getPassword();
-            $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
-            $user->setPassword($encoded);   
+        if ($form->isSubmitted() && $form->isValid()) {  
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -65,25 +59,6 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    // /**
-    //  * @Route("/cabinet", name="user_cabinet")
-    //  */
-    // public function enterToTheCabinet( ): Response
-    // {
-    //     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        
-    //     //$user = $this->getUser();
-    //     $user = $this->security->getUser();
-
-    //     //$email = $user->getEmail();
-
-    //     return $this->render('cabinet/index.html.twig', [
-    //         //'email' => $email,
-    //         'user' => $user,
-    //     ]);
-    // }
 
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
@@ -104,12 +79,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // Encoder
-            
-            $plainpwd = $user->getPassword();
-            $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
-            $user->setPassword($encoded);
 
             $entityManager->persist($user);
             $entityManager->flush();

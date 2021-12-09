@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -90,13 +91,6 @@ class User implements UserInterface
 
         return $this;
     }
-    // public function setRoles( $roles): self
-    // {
-    //     $old = $this->getRoles();
-    //     $this->roles = $old + $roles;
-
-    //     return $this;
-    // }
 
     /**
      * @see UserInterface
