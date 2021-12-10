@@ -29,35 +29,23 @@ class PasswordSubscriber implements EventSubscriber
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        $userEntity = $args->getEntity();//->getUsername();
-        if ($userEntity instanceof User)
-        {
-            dump(' 1: '.$userEntity->getPassword());
-
-            // Encoder
-            $plainpwd = $userEntity->getPassword();
-            $encoded = $this->passwordEncoder->encodePassword($userEntity, $plainpwd);
-            $userEntity->setPassword($encoded);    
-
-            dump(' 2: '.$userEntity->getPassword());
-
-
-        }
+        $this->hashPassword($args);
     }
 
     public function preUpdate(PreUpdateEventArgs $args)
     {
-        $userEntity = $args->getEntity();//->getUsername();
+        $this->hashPassword($args);
+    }
+
+    private function hashPassword($args)
+    {
+        $userEntity = $args->getEntity();
         if ($userEntity instanceof User)
         {
-            dump(' 1: '.$userEntity->getPassword());
-
             // Encoder
             $plainpwd = $userEntity->getPassword();
             $encoded = $this->passwordEncoder->encodePassword($userEntity, $plainpwd);
-            $userEntity->setPassword($encoded);    
-
-            dump(' 2: '.$userEntity->getPassword());
+            $userEntity->setPassword($encoded);
         }
     }
 }

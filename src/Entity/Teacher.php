@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Teacher
 {
-    use MyIdTrait;
+    use EntityIdTrait;
   
     /**
      * @ORM\Column(type="float")
