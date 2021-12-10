@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Course
 {
-    use MyIdTrait;
+    use EntityIdTrait;
 
     /**
      * @ORM\Column(type="string", length=40)

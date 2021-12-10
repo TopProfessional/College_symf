@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Student
 {
-    use MyIdTrait;
+    use EntityIdTrait;
 
     /**
      * @ORM\Column(type="integer")

@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Mark
 {
-    use MyIdTrait;
+    use EntityIdTrait;
 
     /**
      * @ORM\Column(type="integer", nullable=true)

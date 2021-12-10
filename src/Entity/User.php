@@ -19,7 +19,7 @@ class User implements UserInterface
     public const ROLE_TEACHER = 'ROLE_TEACHER';
     public const ROLE_STUDENT = 'ROLE_STUDENT';
 
-    use MyIdTrait;
+    use EntityIdTrait;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)

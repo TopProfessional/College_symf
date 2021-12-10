@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-trait MyIdTrait {
+use Doctrine\ORM\Mapping as ORM;
+
+trait EntityIdTrait {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
