@@ -42,15 +42,21 @@ Role
 
 Mark
 ----------
-id, mark, teacher_id, student_id, course_id
+id, mark, teacher_id, student_id, course_id, date
 
-mark (many to one) student
-mark (many to one) teacher
+Mark (many to one) student
+Mark (many to one) teacher
 
+mark (many to one) course	?
 
 Class
 ----------
-id, name, teacher(teacher_id), student(student_id)
+id, name, teacher(teacher_id), students(student_id)
+
+
+Class (one to one) teacher
+Class (one to many) students
+
 
 
 
