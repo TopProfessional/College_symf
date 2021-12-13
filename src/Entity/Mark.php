@@ -31,6 +31,17 @@ class Mark
      */
     private $student;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Course::class, inversedBy="marks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $course;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $date;
+
     public function getMark(): ?int
     {
         return $this->mark;
@@ -63,6 +74,30 @@ class Mark
     public function setStudent(?Student $student): self
     {
         $this->student = $student;
+
+        return $this;
+    }
+
+    public function getCourse(): ?Course
+    {
+        return $this->course;
+    }
+
+    public function setCourse(?Course $course): self
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

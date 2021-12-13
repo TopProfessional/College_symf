@@ -36,10 +36,16 @@ class Course
      */
     private $teachers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Mark::class, mappedBy="course")
+     */
+    private $marks;
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
         $this->teachers = new ArrayCollection();
+        $this->marks = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -120,5 +126,35 @@ class Course
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @return Collection|Mark[]
+     */
+    public function getMarks(): Collection
+    {
+        return $this->marks;
+    }
+
+    public function addMark(Mark $mark): self
+    {
+        if (!$this->marks->contains($mark)) {
+            $this->marks[] = $mark;
+            $mark->setCourse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMark(Mark $mark): self
+    {
+        if ($this->marks->removeElement($mark)) {
+            // set the owning side to null (unless already changed)
+            if ($mark->getCourse() === $this) {
+                $mark->setCourse(null);
+            }
+        }
+
+        return $this;
     }
 }

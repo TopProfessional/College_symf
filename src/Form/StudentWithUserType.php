@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Course;
+use App\Entity\Classes;
 use App\Entity\Student;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,6 +23,13 @@ class StudentWithUserType extends AbstractType
                 'by_reference' => false,
                 'multiple' => true,
             ])
+
+            ->add('classes', EntityType::class , [
+                'class' => Classes::class,
+//                'by_reference' => false,
+                'multiple' => false,
+            ])
+
             ->add('user', UserType::class)
         ;
     }
