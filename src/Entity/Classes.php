@@ -57,6 +57,11 @@ class Classes
         return $this;
     }
 
+    public function __toString()
+    {
+        return (string) $this->name;
+    }
+
     public function getTeacher(): ?Teacher
     {
         return $this->teacher;

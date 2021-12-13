@@ -49,7 +49,7 @@ Mark (many to one) teacher
 
 mark (many to one) course	?
 
-Class
+Classes
 ----------
 id, name, teacher(teacher_id), students(student_id)
 

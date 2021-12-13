@@ -77,6 +77,7 @@ class StudentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($student);
             $entityManager->flush();
 
             return $this->redirectToRoute('student_index', [], Response::HTTP_SEE_OTHER);
