@@ -33,3 +33,8 @@ services:
     App\Subscribers\PasswordSubscriber:
         tags:
             - { name: 'doctrine.event_subscriber', connection: default}
+
+    # Service for UploaderHelper
+    App\Service\UploaderHelper:
+        arguments:
+            $uploadsPath: '%kernel.project_dir%/public/uploads'

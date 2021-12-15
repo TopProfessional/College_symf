@@ -28,7 +28,8 @@
             <tr>
                
                 <td>{{ student.age }}</td>
-                <td>{{ student.photo }}</td>
+                <td><img width="250px" src="{{ asset('uploads/article_image/') }}{{ student.photo }}"/></td>
+
                 <td>{{ student.startDate ? student.startDate|date('Y-m-d') : '' }}</td>
                 <td>{{ student.id }}</td>
                 <td>{{ student.user.username }}</td>
