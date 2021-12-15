@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Student;
 use App\Form\StudentType;
+use App\Service\UploaderHelper;
 use App\Form\StudentWithUserType;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,13 +39,21 @@ class StudentController extends AbstractController
     /**
      * @Route("/new", name="student_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
     {
         $student = new Student();
         $form = $this->createForm(StudentWithUserType::class, $student);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $uploadedFile = $form['photo']->getData();
+            if($uploadedFile)
+            {
+                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
+                $student->setPhoto($newFilename);
+            }
+//
 
             $entityManager->persist($student);
             $entityManager->flush();
@@ -71,12 +80,20 @@ class StudentController extends AbstractController
     /**
      * @Route("/{id}/edit", name="student_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Student $student, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Student $student, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
     {
         $form = $this->createForm(StudentWithUserType::class, $student);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $uploadedFile = $form['photo']->getData();
+            if($uploadedFile)
+            {
+                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
+                $student->setPhoto($newFilename);
+            }
+
             $entityManager->persist($student);
             $entityManager->flush();
 
@@ -87,6 +104,14 @@ class StudentController extends AbstractController
             'student' => $student,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/uploads", name="upload_test", methods={"POST"})
+     */
+    public function tempraryUploadAction()
+    {
+
     }
 
     /**
