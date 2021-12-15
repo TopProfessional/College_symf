@@ -53,7 +53,6 @@ class StudentController extends AbstractController
                 $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
                 $student->setPhoto($newFilename);
             }
-//
 
             $entityManager->persist($student);
             $entityManager->flush();
@@ -117,9 +116,12 @@ class StudentController extends AbstractController
     /**
      * @Route("/{id}", name="student_delete", methods={"POST"})
      */
-    public function delete(Request $request, Student $student, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Student $student, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token'))) {
+
+        if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token')))
+        {
+            $uploaderHelper->deleteImage($student->getPhoto());
             $entityManager->remove($student);
             $entityManager->flush();
         }
