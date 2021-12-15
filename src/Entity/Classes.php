@@ -12,12 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Classes
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use EntityIdTrait;
 
     /**
      * @ORM\Column(type="string", length=40)
@@ -38,11 +33,6 @@ class Classes
     public function __construct()
     {
         $this->students = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): ?string
