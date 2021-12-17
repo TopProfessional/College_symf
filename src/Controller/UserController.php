@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/users")
@@ -61,7 +62,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/{id}", name="user_show", methods={"GET"}, reqirements={"id"="\d+"})
      */
     public function show(User $user): Response
     {
@@ -71,7 +72,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
      */
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
@@ -93,7 +94,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"POST"})
+     * @Route("/{id}", name="user_delete", methods={"POST"}, reqirements={"id"="\d+"})
      */
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {

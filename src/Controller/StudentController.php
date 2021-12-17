@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/students")
@@ -38,12 +39,14 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/new", name="student_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
     {
-        $student = new Student();
-        $form = $this->createForm(StudentWithUserType::class, $student);
+        //$student = new Student();
+        $form = $this->createForm(StudentWithUserType::class/*, $student*/);
         $form->handleRequest($request);
+        $student = $form->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -67,7 +70,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="student_show", methods={"GET"})
+     * @Route("/{id}", name="student_show", methods={"GET"}, reqirements={"id"="\d+"})
      */
     public function show(Student $student): Response
     {
@@ -77,7 +80,8 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="student_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="student_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Student $student, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
     {
@@ -106,7 +110,8 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="student_delete", methods={"POST"})
+     * @Route("/{id}", name="student_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Student $student, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
     {

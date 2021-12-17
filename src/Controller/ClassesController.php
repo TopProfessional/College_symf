@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/classes")
@@ -28,6 +29,7 @@ class ClassesController extends AbstractController
 
     /**
      * @Route("/new", name="classes_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -49,7 +51,7 @@ class ClassesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="classes_show", methods={"GET"})
+     * @Route("/{id}", name="classes_show", methods={"GET"}, reqirements={"id"="\d+"})
      */
     public function show(Classes $class): Response
     {
@@ -59,7 +61,8 @@ class ClassesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="classes_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="classes_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Classes $class, EntityManagerInterface $entityManager): Response
     {
@@ -79,7 +82,8 @@ class ClassesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="classes_delete", methods={"POST"})
+     * @Route("/{id}", name="classes_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Classes $class, EntityManagerInterface $entityManager): Response
     {

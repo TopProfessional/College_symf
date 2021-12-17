@@ -37,6 +37,8 @@ security:
     access_control:
         # require ROLE_ADMIN for /users
         - { path: '^/user', roles: ROLE_ADMIN }
+
+        # require ROLE_USER for others
         - { path: '^/cabinet', roles: ROLE_USER }
         - { path: '^/students', roles: ROLE_USER }
         - { path: '^/classes', roles: ROLE_USER }
