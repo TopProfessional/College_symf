@@ -19,9 +19,6 @@ class StudentWithUserType extends AbstractType
     {
         $builder
             ->add('age')
-//            ->add('photo')
-
-        //...
             ->add('photo', FileType::class, [
                     'label' => 'Profile photo',
 
@@ -37,16 +34,10 @@ class StudentWithUserType extends AbstractType
                     'constraints' => [
                         new File([
                             'maxSize' => '1024k',
-//                            'mimeTypes' => [
-//                                'application/png',
-//                                'application/jpg',
-//                            ],
-//                            'mimeTypesMessage' => 'Please upload a valid png/jpg document',
+
                         ])
                     ],
                 ])
-                    // ...
-
             ->add('startDate')
             ->add('courses', EntityType::class , [
                 'class' => Course::class,
@@ -56,10 +47,8 @@ class StudentWithUserType extends AbstractType
 
             ->add('classes', EntityType::class , [
                 'class' => Classes::class,
-//                'by_reference' => false,
                 'multiple' => false,
             ])
-
             ->add('user', UserType::class)
         ;
     }

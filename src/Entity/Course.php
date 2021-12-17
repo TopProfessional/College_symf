@@ -27,19 +27,19 @@ class Course
     private ?string $description = null;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="courses") // was courses
+     * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="courses")
      */
-    private $students;
+    private Collection $students;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Teacher::class, inversedBy="courses") // was courses
+     * @ORM\ManyToMany(targetEntity=Teacher::class, inversedBy="courses")
      */
-    private $teachers;
+    private Collection $teachers;
 
     /**
      * @ORM\OneToMany(targetEntity=Mark::class, mappedBy="course")
      */
-    private $marks;
+    private Collection $marks;
 
     public function __construct()
     {
@@ -108,9 +108,8 @@ class Course
     public function addTeacher(Teacher $teacher): self
     {
         if (!$this->teachers->contains($teacher)) {
-            $this->teachers[] = $teacher;
+            $this->teachers->add($teacher);
             $teacher->addCourse($this);
-            
         }
 
         return $this;
@@ -123,7 +122,7 @@ class Course
         return $this;
     }
 
-    public function __toString()
+    public function __toString():string
     {
         return (string) $this->name;
     }
@@ -139,7 +138,7 @@ class Course
     public function addMark(Mark $mark): self
     {
         if (!$this->marks->contains($mark)) {
-            $this->marks[] = $mark;
+            $this->marks->add($mark);
             $mark->setCourse($this);
         }
 
@@ -149,6 +148,7 @@ class Course
     public function removeMark(Mark $mark): self
     {
         if ($this->marks->removeElement($mark)) {
+
             // set the owning side to null (unless already changed)
             if ($mark->getCourse() === $this) {
                 $mark->setCourse(null);

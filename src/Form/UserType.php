@@ -18,7 +18,6 @@ class UserType extends AbstractType
             ->add('email')
             ->add('roles', ChoiceType::class,  [
                 'multiple' => true,
-                //'multiple' => false,
                 'expanded' => false,
                 'required' => true,
                 'choices' => [
@@ -31,23 +30,6 @@ class UserType extends AbstractType
             ->add('username')
             ->add('password')
         ;
-
-    //     // roles field data transformer
-
-    //    $builder->get('roles')
-    //             ->addModelTransformer(new CallbackTransformer(
-    //                 function ($rolesArray) {
-
-    //                         // transform the array to a string
-    //                         return count($rolesArray)? $rolesArray[0]: null;
-    //                 },
-
-    //                 function ($rolesString) {
-
-    //                         // transform the string back to an array
-    //                         return [$rolesString];
-    //                 }
-    //             ));
      }
 
 

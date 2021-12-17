@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class StudentController extends AbstractController
 {
-    private $passwordEncoder;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -27,7 +27,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/", name="student_index", methods={"GET"})
+     * @Route(name="student_index", methods={"GET"})
      */
     public function index(StudentRepository $studentRepository): Response
     {
@@ -106,14 +106,6 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/uploads", name="upload_test", methods={"POST"})
-     */
-    public function tempraryUploadAction()
-    {
-
-    }
-
-    /**
      * @Route("/{id}", name="student_delete", methods={"POST"})
      */
     public function delete(Request $request, Student $student, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
@@ -121,7 +113,6 @@ class StudentController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token')))
         {
-            $uploaderHelper->deleteImage($student->getPhoto());
             $entityManager->remove($student);
             $entityManager->flush();
         }

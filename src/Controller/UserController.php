@@ -18,17 +18,17 @@ use Symfony\Component\Security\Core\Security;
  */
 class UserController extends AbstractController
 {
-    private $passwordEncoder;
-    private $security;
+    private Security $security;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, Security $security)
     {
-        $this->passwordEncoder = $passwordEncoder;
         $this->security = $security;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route(name="user_index", methods={"GET"})
      */
     public function index(UserRepository $userRepository): Response
     {

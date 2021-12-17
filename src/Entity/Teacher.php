@@ -22,9 +22,9 @@ class Teacher
     private ?float $salary = null;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="teachers") //was teacher
+     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="teachers")
      */
-    private $courses;
+    private Collection $courses;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
@@ -35,7 +35,7 @@ class Teacher
     /**
      * @ORM\OneToOne(targetEntity=Classes::class, mappedBy="teacher", cascade={"persist", "remove"})
      */
-    private $classes;
+    private ?Classes $classes;
 
     public function __construct()
     {
@@ -65,7 +65,7 @@ class Teacher
     public function addCourse(Course $course): self
     {
         if (!$this->courses->contains($course)) {
-            $this->courses[] = $course;
+            $this->courses->add($course);
             $course->addTeacher($this);
         }
 
@@ -93,7 +93,7 @@ class Teacher
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->user;
     }

@@ -17,30 +17,30 @@ class Mark
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $mark=null;
+    private ?int $mark = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Teacher::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $teacher;
+    private ?Teacher $teacher = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Student::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $student;
+    private ?Student $student = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Course::class, inversedBy="marks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $course;
+    private ?Course $course = null;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $date;
+    private ?\DateTimeInterface $date = null;
 
     public function getMark(): ?int
     {

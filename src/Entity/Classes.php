@@ -17,18 +17,18 @@ class Classes
     /**
      * @ORM\Column(type="string", length=40)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * @ORM\OneToOne(targetEntity=Teacher::class, inversedBy="classes", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $teacher;
+    private ?Teacher $teacher = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Student::class, mappedBy="classes")
      */
-    private $students;
+    private Collection $students;
 
     public function __construct()
     {
@@ -47,7 +47,7 @@ class Classes
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->name;
     }
@@ -75,7 +75,7 @@ class Classes
     public function addStudent(Student $student): self
     {
         if (!$this->students->contains($student)) {
-            $this->students[] = $student;
+            $this->students->add($student);
             $student->setClasses($this);
         }
 

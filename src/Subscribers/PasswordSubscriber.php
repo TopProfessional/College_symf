@@ -11,15 +11,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordSubscriber implements EventSubscriber
 {
-
-    private $passwordEncoder;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::prePersist,
@@ -27,28 +26,25 @@ class PasswordSubscriber implements EventSubscriber
         ];
     }
 
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $this->hashPassword($args);
     }
 
-    public function preUpdate(PreUpdateEventArgs $args)
+    public function preUpdate(PreUpdateEventArgs $args): void
     {
         $this->hashPassword($args);
     }
 
-    private function hashPassword($args)
+    private function hashPassword($args): void
     {
-        $userEntity = $args->getEntity();
-        if ($userEntity instanceof User)
+        $user = $args->getEntity();
+        if ($user instanceof User)
         {
             // Encoder
-            $plainpwd = $userEntity->getPassword();
-            $encoded = $this->passwordEncoder->encodePassword($userEntity, $plainpwd);
-            $userEntity->setPassword($encoded);
+            $plainpwd = $user->getPassword();
+            $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);
+            $user->setPassword($encoded);
         }
     }
 }
-
-
-    

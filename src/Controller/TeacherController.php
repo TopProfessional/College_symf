@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TeacherController extends AbstractController
 {
     /**
-     * @Route("/", name="teacher_index", methods={"GET"})
+     * @Route(name="teacher_index", methods={"GET"})
      */
     public function index(TeacherRepository $teacherRepository): Response
     {

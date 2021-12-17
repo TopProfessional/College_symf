@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MarkController extends AbstractController
 {
     /**
-     * @Route("/", name="mark_index", methods={"GET"})
+     * @Route(name="mark_index", methods={"GET"})
      */
     public function index(MarkRepository $markRepository): Response
     {

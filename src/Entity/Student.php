@@ -29,12 +29,12 @@ class Student
     /**
      * @ORM\Column(type="date")
      */
-    private ?\DateTime $startDate;
+    private ?\DateTimeInterface $startDate = null;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="students") //was student
+     * @ORM\ManyToMany(targetEntity=Course::class, mappedBy="students")
      */
-    private $courses;
+    private Collection $courses;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
@@ -46,7 +46,7 @@ class Student
      * @ORM\ManyToOne(targetEntity=Classes::class, inversedBy="students")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $classes;
+    private ?Classes $classes = null;
 
     public function __construct()
     {
@@ -89,7 +89,6 @@ class Student
         return $this;
     }
 
-
     /**
      * @return Collection|Course[]
      */
@@ -101,7 +100,7 @@ class Student
     public function addCourse(Course $course): self
     {
         if (!$this->courses->contains($course)) {
-            $this->courses[] = $course;
+            $this->courses->add($course);
             $course->addStudent($this);
         }
 
@@ -129,7 +128,7 @@ class Student
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->user;
     }

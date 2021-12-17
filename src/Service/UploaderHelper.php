@@ -1,7 +1,6 @@
 <?php
 namespace App\Service;
 
-
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -14,7 +13,7 @@ class UploaderHelper
         $this->uploadsPath = $uploadsPath;
     }
 
-    public function uploadArticleImage(UploadedFile $uploadedFile):string
+    public function uploadArticleImage(UploadedFile $uploadedFile): string
     {
         $destination = $this->uploadsPath.'/article_image';
 
@@ -24,16 +23,5 @@ class UploaderHelper
         $uploadedFile->move($destination, $newFilename);
 
         return $newFilename;
-    }
-
-    public function deleteImage($image){
-
-        $pathToFile = $this->uploadsPath.'/article_image/'.$image;
-        $filesystem = new Filesystem();
-
-        if($filesystem->exists($pathToFile))
-        {
-            $filesystem->remove([ $pathToFile]);
-        }
     }
 }
