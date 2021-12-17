@@ -29,16 +29,15 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];// ;
+    private ?array $roles = [];
 
     /**
      * @ORM\Column(type="string")
      */
     private ?string $username = null;
 
-
     /**
-     * @var string The hashed password
+     * @var ?string The hashed password
      * @ORM\Column(type="string")
      */
     private ?string $password = null;
@@ -65,9 +64,8 @@ class User implements UserInterface
         return (string) $this->username;
     }
 
-    public function setUsername(string $username)//: string Почему возвращает обьект??????????????
+    public function setUsername(string $username): self
     {
-        //$old = $this->getUsername();
         $this->username = $username;
 
         return $this;
@@ -76,11 +74,12 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): ?array////?string //
+    public function getRoles(): ?array
     {
         $roles = $this->roles;
+
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = self::ROLE_USER;
 
         return array_unique($roles);
     }
@@ -127,8 +126,8 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->username;
+        return (string) $this->username;
     }
 }

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/marks")
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MarkController extends AbstractController
 {
     /**
-     * @Route("/", name="mark_index", methods={"GET"})
+     * @Route(name="mark_index", methods={"GET"})
      */
     public function index(MarkRepository $markRepository): Response
     {
@@ -28,6 +29,7 @@ class MarkController extends AbstractController
 
     /**
      * @Route("/new", name="mark_new", methods={"GET", "POST"})
+     * @IsGranted("ROLE_TEACHER")
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -49,7 +51,7 @@ class MarkController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mark_show", methods={"GET"})
+     * @Route("/{id}", name="mark_show", methods={"GET"}, reqirements={"id"="\d+"})
      */
     public function show(Mark $mark): Response
     {
@@ -59,7 +61,8 @@ class MarkController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="mark_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="mark_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @IsGranted("ROLE_TEACHER")
      */
     public function edit(Request $request, Mark $mark, EntityManagerInterface $entityManager): Response
     {
@@ -79,7 +82,8 @@ class MarkController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mark_delete", methods={"POST"})
+     * @Route("/{id}", name="mark_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @IsGranted("ROLE_TEACHER")
      */
     public function delete(Request $request, Mark $mark, EntityManagerInterface $entityManager): Response
     {

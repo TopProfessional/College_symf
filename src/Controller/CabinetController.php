@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class CabinetController extends AbstractController
 {
-
-    private $security;
+    private ?Security $security;
 
     public function __construct(Security $security)
     {
@@ -27,16 +27,9 @@ class CabinetController extends AbstractController
      */
     public function enterToTheCabinet( ): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        
-        //$user = $this->getUser();
         $user = $this->security->getUser();
 
-        //$email = $user->getEmail();
-
         return $this->render('cabinet/index.html.twig', [
-            //'email' => $email,
             'user' => $user,
         ]);
     }
