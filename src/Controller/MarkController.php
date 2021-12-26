@@ -51,7 +51,7 @@ class MarkController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mark_show", methods={"GET"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="mark_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Mark $mark): Response
     {
@@ -61,7 +61,7 @@ class MarkController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="mark_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="mark_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_TEACHER")
      */
     public function edit(Request $request, Mark $mark, EntityManagerInterface $entityManager): Response
@@ -70,6 +70,7 @@ class MarkController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($mark);
             $entityManager->flush();
 
             return $this->redirectToRoute('mark_index', [], Response::HTTP_SEE_OTHER);
@@ -82,7 +83,7 @@ class MarkController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="mark_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="mark_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_TEACHER")
      */
     public function delete(Request $request, Mark $mark, EntityManagerInterface $entityManager): Response

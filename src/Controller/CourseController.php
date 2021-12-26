@@ -39,7 +39,7 @@ class CourseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($course);
-             $entityManager->flush();
+            $entityManager->flush();
 
              return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -51,7 +51,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="course_show", methods={"GET"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="course_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Course $course): Response
     {
@@ -61,7 +61,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="course_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="course_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Course $course, EntityManagerInterface $entityManager): Response
@@ -70,6 +70,7 @@ class CourseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($course);
             $entityManager->flush();
 
             return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
@@ -82,7 +83,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="course_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="course_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Course $course, EntityManagerInterface $entityManager): Response

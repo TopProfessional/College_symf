@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -35,6 +37,7 @@ class ClassesController extends AbstractController
     {
         $class = new Classes();
         $form = $this->createForm(ClassesType::class, $class);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -44,14 +47,16 @@ class ClassesController extends AbstractController
             return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
         }
 
+//        $this->basicEntityMethods($request, $form,  $class, $entityManager, $defaultReturn);
+
         return $this->render('classes/new.html.twig', [
-            'class' => $class,
-            'form' => $form->createView(),
-        ]);
+                'class' => $class,
+                'form' => $form->createView(),
+                ]);
     }
 
     /**
-     * @Route("/{id}", name="classes_show", methods={"GET"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="classes_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Classes $class): Response
     {
@@ -61,7 +66,7 @@ class ClassesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="classes_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="classes_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Classes $class, EntityManagerInterface $entityManager): Response
@@ -70,8 +75,10 @@ class ClassesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
 
+            //$this->basicEntityMethods($class, $entityManager);
+            $entityManager->persist($class);
+            $entityManager->flush();
             return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -82,7 +89,7 @@ class ClassesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="classes_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="classes_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Classes $class, EntityManagerInterface $entityManager): Response
@@ -93,5 +100,12 @@ class ClassesController extends AbstractController
         }
 
         return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+  private function basicEntityMethods(Classes $class, EntityManagerInterface $entityManager): RedirectResponse
+    {
+            $entityManager->persist($class);
+            $entityManager->flush();
+            return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
     }
 }

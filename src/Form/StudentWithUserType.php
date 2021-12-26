@@ -8,13 +8,23 @@ use App\Entity\Student;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Service\UploaderHelper;
 
 
 class StudentWithUserType extends AbstractType
 {
+    private UploaderHelper $uploaderHelper;
+
+    public function __construct(UploaderHelper $uploaderHelper)
+    {
+        $this->uploaderHelper = $uploaderHelper;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -51,6 +61,17 @@ class StudentWithUserType extends AbstractType
             ])
             ->add('user', UserType::class)
         ;
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
+            $form = $event->getForm();
+            $student = $form->getData();
+            $uploadedFile = $form['photo']->getData();
+            if($uploadedFile)
+            {
+                $newFilename = $this->uploaderHelper->uploadArticleImage($uploadedFile);
+                $student->setPhoto($newFilename);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
