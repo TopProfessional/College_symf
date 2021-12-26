@@ -50,12 +50,12 @@ class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $uploadedFile = $form['photo']->getData();
-            if($uploadedFile)
-            {
-                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
-                $student->setPhoto($newFilename);
-            }
+//            $uploadedFile = $form['photo']->getData();
+//            if($uploadedFile)
+//            {
+//                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
+//                $student->setPhoto($newFilename);
+//            }
 
             $entityManager->persist($student);
             $entityManager->flush();
@@ -70,7 +70,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="student_show", methods={"GET"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="student_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Student $student): Response
     {
@@ -80,7 +80,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="student_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="student_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Student $student, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
@@ -90,12 +90,12 @@ class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $uploadedFile = $form['photo']->getData();
-            if($uploadedFile)
-            {
-                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
-                $student->setPhoto($newFilename);
-            }
+//            $uploadedFile = $form['photo']->getData();
+//            if($uploadedFile)
+//            {
+//                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
+//                $student->setPhoto($newFilename);
+//            }
 
             $entityManager->persist($student);
             $entityManager->flush();
@@ -110,7 +110,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="student_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="student_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Student $student, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response

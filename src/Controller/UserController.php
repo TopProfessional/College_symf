@@ -47,8 +47,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {  
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -62,7 +61,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="user_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(User $user): Response
     {
@@ -72,7 +71,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      */
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
@@ -80,7 +79,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -94,7 +92,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="user_delete", methods={"POST"}, requirements={"id"="\d+"})
      */
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {

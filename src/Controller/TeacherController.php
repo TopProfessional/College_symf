@@ -52,7 +52,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="teacher_show", methods={"GET"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="teacher_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Teacher $teacher): Response
     {
@@ -62,7 +62,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="teacher_edit", methods={"GET", "POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="teacher_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
@@ -71,6 +71,7 @@ class TeacherController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($teacher);
             $entityManager->flush();
 
             return $this->redirectToRoute('teacher_index', [], Response::HTTP_SEE_OTHER);
@@ -83,7 +84,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="teacher_delete", methods={"POST"}, reqirements={"id"="\d+"})
+     * @Route("/{id}", name="teacher_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
