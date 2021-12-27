@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Student;
-use App\Form\StudentType;
+use App\Service\DeleteEntityObjectHelper;
 use App\Service\UploaderHelper;
 use App\Form\StudentWithUserType;
 use App\Repository\StudentRepository;
@@ -15,16 +15,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+
+
 /**
  * @Route("/students")
  */
 class StudentController extends AbstractController
 {
     private UserPasswordEncoderInterface $passwordEncoder;
+    private DeleteEntityObjectHelper $deleteEntity;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, DeleteEntityObjectHelper $deleteEntity)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->deleteEntity = $deleteEntity;
     }
 
     /**
@@ -43,20 +47,11 @@ class StudentController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
     {
-        //$student = new Student();
-        $form = $this->createForm(StudentWithUserType::class/*, $student*/);
+        $form = $this->createForm(StudentWithUserType::class);
         $form->handleRequest($request);
         $student = $form->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-//            $uploadedFile = $form['photo']->getData();
-//            if($uploadedFile)
-//            {
-//                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
-//                $student->setPhoto($newFilename);
-//            }
-
             $entityManager->persist($student);
             $entityManager->flush();
 
@@ -90,16 +85,14 @@ class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-//            $uploadedFile = $form['photo']->getData();
-//            if($uploadedFile)
-//            {
-//                $newFilename = $uploaderHelper->uploadArticleImage($uploadedFile);
-//                $student->setPhoto($newFilename);
-//            }
 
             $entityManager->persist($student);
             $entityManager->flush();
 
+//            $uow = $entityManager->getUnitOfWork();
+//            //$uow->computeChangeSet($entityManager->getClassMetadata(Student::class),$student);
+//            $j =  $uow->getEntityChangeSet($student);
+//            dd($j);
             return $this->redirectToRoute('student_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -113,7 +106,7 @@ class StudentController extends AbstractController
      * @Route("/{id}", name="student_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function delete(Request $request, Student $student, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
+    public function delete(Request $request, Student $student, EntityManagerInterface $entityManager): Response
     {
 
         if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token')))
@@ -121,6 +114,7 @@ class StudentController extends AbstractController
             $entityManager->remove($student);
             $entityManager->flush();
         }
+        //$this->deleteEntity->deleteEntityObject($request, $student, $entityManager); Удаляет нужного студента, и фото у всех студентов
 
         return $this->redirectToRoute('student_index', [], Response::HTTP_SEE_OTHER);
     }

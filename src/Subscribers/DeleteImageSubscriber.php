@@ -9,16 +9,19 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DeleteImageSubscriber implements EventSubscriber
 {
     private UserPasswordEncoderInterface $passwordEncoder;
     private string $uploadsPath;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, string $uploadsPath)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, string $uploadsPath, EntityManagerInterface $entityManager)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->uploadsPath = $uploadsPath;
+        $this->entityManager = $entityManager;
     }
 
     public function getSubscribedEvents(): array
@@ -34,10 +37,14 @@ class DeleteImageSubscriber implements EventSubscriber
         $this->removeImage($args);
     }
 
-//    public function preUpdate(PreUpdateEventArgs $args): void
-//    {
-//        $this->removeImage($args);
-//    }
+    public function preUpdate(PreUpdateEventArgs $args): void
+    {
+        //$this->removeImage($args);
+//        $student = $args->getEntity();
+//        $j =  $this->entityManager->getUnitOfWork()->getEntityChangeSet($student);
+//        dd($j);
+    }
+
 
     private function removeImage($args): void
     {
