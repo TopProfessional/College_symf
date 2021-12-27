@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Course;
 use App\Entity\Classes;
 use App\Entity\Student;
+use Doctrine\ORM\Mapping\PreRemove;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -72,6 +73,8 @@ class StudentWithUserType extends AbstractType
                 $student->setPhoto($newFilename);
             }
         });
+
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void
