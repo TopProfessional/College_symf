@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-interface EntityInterface
+interface IdentifiableInterface
 {
     /**
      * Gets Id of Entity
      */
-    public function getId();
+    public function getId(): ?int;
 }

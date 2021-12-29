@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=StudentRepository::class)
  */
-class Student implements EntityInterface
+class Student implements IdentifiableInterface
 {
     use EntityIdTrait;
 
