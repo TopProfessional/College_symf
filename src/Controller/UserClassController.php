@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Classes;
-use App\Form\ClassesType;
-use App\Repository\ClassesRepository;
+use App\Entity\UserClass;
+use App\Form\UserClassType;
+use App\Repository\UserClassRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,12 +17,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 /**
  * @Route("/classes")
  */
-class ClassesController extends AbstractController
+class UserClassController extends AbstractController
 {
     /**
      * @Route(name="classes_index", methods={"GET"})
      */
-    public function index(ClassesRepository $classesRepository): Response
+    public function index(UserClassRepository $classesRepository): Response
     {
         return $this->render(
             'classes/index.html.twig',
@@ -38,8 +38,8 @@ class ClassesController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $class = new Classes();
-        $form = $this->createForm(ClassesType::class, $class);
+        $class = new UserClass();
+        $form = $this->createForm(UserClassType::class, $class);
 
         $form->handleRequest($request);
 
@@ -64,7 +64,7 @@ class ClassesController extends AbstractController
     /**
      * @Route("/{id}", name="classes_show", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function show(Classes $class): Response
+    public function show(UserClass $class): Response
     {
         return $this->render(
             'classes/show.html.twig',
@@ -78,9 +78,9 @@ class ClassesController extends AbstractController
      * @Route("/{id}/edit", name="classes_edit", methods={"GET", "POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function edit(Request $request, Classes $class, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, UserClass $class, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ClassesType::class, $class);
+        $form = $this->createForm(UserClassType::class, $class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -105,7 +105,7 @@ class ClassesController extends AbstractController
      * @Route("/{id}", name="classes_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function delete(Request $request, Classes $class, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, UserClass $class, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$class->getId(), $request->request->get('_token'))) {
             $entityManager->remove($class);
@@ -115,7 +115,7 @@ class ClassesController extends AbstractController
         return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    private function basicEntityMethods(Classes $class, EntityManagerInterface $entityManager): RedirectResponse
+    private function basicEntityMethods(UserClass $class, EntityManagerInterface $entityManager): RedirectResponse
     {
         $entityManager->persist($class);
         $entityManager->flush();

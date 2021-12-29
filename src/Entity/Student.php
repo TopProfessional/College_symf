@@ -43,10 +43,10 @@ class Student implements IdentifiableInterface
     private ?User $user = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Classes::class, inversedBy="students")
+     * @ORM\ManyToOne(targetEntity=UserClass::class, inversedBy="students")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Classes $classes = null;
+    private ?UserClass $classes = null;
 
     public function __construct()
     {
@@ -133,12 +133,12 @@ class Student implements IdentifiableInterface
         return (string)$this->user;
     }
 
-    public function getClasses(): ?Classes
+    public function getClasses(): ?UserClass
     {
         return $this->classes;
     }
 
-    public function setClasses(?Classes $classes): self
+    public function setClasses(?UserClass $classes): self
     {
         $this->classes = $classes;
 

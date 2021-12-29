@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Classes;
+use App\Entity\UserClass;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ClassesType extends AbstractType
+class UserClassType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,7 +20,7 @@ class ClassesType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Classes::class,
+                'data_class' => UserClass::class,
             ]
         );
     }

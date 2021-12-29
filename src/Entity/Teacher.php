@@ -33,9 +33,9 @@ class Teacher implements IdentifiableInterface
     private ?User $user = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=Classes::class, mappedBy="teacher")
+     * @ORM\OneToOne(targetEntity=UserClass::class, mappedBy="teacher")
      */
-    private ?Classes $classes;
+    private ?UserClass $classes;
 
     public function __construct()
     {
@@ -98,12 +98,12 @@ class Teacher implements IdentifiableInterface
         return (string)$this->user;
     }
 
-    public function getClasses(): ?Classes
+    public function getClasses(): ?UserClass
     {
         return $this->classes;
     }
 
-    public function setClasses(Classes $classes): self
+    public function setClasses(UserClass $classes): self
     {
         // set the owning side of the relation if necessary
         if ($classes->getTeacher() !== $this) {
