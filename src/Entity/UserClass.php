@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ClassesRepository;
+use App\Repository\UserClassRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ClassesRepository::class)
+ * @ORM\Entity(repositoryClass=UserClassRepository::class)
  */
-class Classes implements EntityInterface
+class UserClass implements IdentifiableInterface
 {
     use EntityIdTrait;
 

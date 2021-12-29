@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=TeacherRepository::class)
  */
-class Teacher implements EntityInterface
+class Teacher implements IdentifiableInterface
 {
     use EntityIdTrait;
 
@@ -33,9 +33,9 @@ class Teacher implements EntityInterface
     private ?User $user = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=Classes::class, mappedBy="teacher")
+     * @ORM\OneToOne(targetEntity=UserClass::class, mappedBy="teacher")
      */
-    private ?Classes $classes;
+    private ?UserClass $classes;
 
     public function __construct()
     {
@@ -98,12 +98,12 @@ class Teacher implements EntityInterface
         return (string)$this->user;
     }
 
-    public function getClasses(): ?Classes
+    public function getClasses(): ?UserClass
     {
         return $this->classes;
     }
 
-    public function setClasses(Classes $classes): self
+    public function setClasses(UserClass $classes): self
     {
         // set the owning side of the relation if necessary
         if ($classes->getTeacher() !== $this) {
