@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=MarkRepository::class)
  */
-class Mark
+class Mark implements EntityInterface
 {
     use EntityIdTrait;
 
@@ -27,7 +27,7 @@ class Mark
 
     /**
      * @ORM\ManyToOne(targetEntity=Student::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private ?Student $student = null;
 

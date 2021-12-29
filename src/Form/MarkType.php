@@ -16,14 +16,15 @@ class MarkType extends AbstractType
             ->add('date')
             ->add('teacher')
             ->add('student')
-            ->add('course')
-        ;
+            ->add('course');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Mark::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Mark::class,
+            ]
+        );
     }
 }

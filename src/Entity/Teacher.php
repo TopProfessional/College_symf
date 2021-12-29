@@ -12,10 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=TeacherRepository::class)
  */
-class Teacher
+class Teacher implements EntityInterface
 {
     use EntityIdTrait;
-  
+
     /**
      * @ORM\Column(type="float")
      */
@@ -33,7 +33,7 @@ class Teacher
     private ?User $user = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=Classes::class, mappedBy="teacher", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Classes::class, mappedBy="teacher")
      */
     private ?Classes $classes;
 
@@ -95,7 +95,7 @@ class Teacher
 
     public function __toString(): string
     {
-        return (string) $this->user;
+        return (string)$this->user;
     }
 
     public function getClasses(): ?Classes

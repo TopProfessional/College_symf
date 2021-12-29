@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -8,8 +9,8 @@ class UploaderHelper
 {
     private string $uploadsPath;
 
-    public function __construct(string $uploadsPath){
-
+    public function __construct(string $uploadsPath)
+    {
         $this->uploadsPath = $uploadsPath;
     }
 
@@ -18,7 +19,7 @@ class UploaderHelper
         $destination = $this->uploadsPath.'/article_image';
 
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $newFilename =  $originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+        $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
         $uploadedFile->move($destination, $newFilename);
 

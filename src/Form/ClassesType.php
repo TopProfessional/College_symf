@@ -13,14 +13,15 @@ class ClassesType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('teacher')
-        ;
+            ->add('teacher');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Classes::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Classes::class,
+            ]
+        );
     }
 }
