@@ -8,7 +8,6 @@ use App\Form\StudentWithUserType;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +24,6 @@ class StudentController extends AbstractController
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, DeleteEntityObjectHelper $deleteEntity)
     {
-        $this->passwordEncoder = $passwordEncoder;
         $this->deleteEntity = $deleteEntity;
     }
 
@@ -49,28 +47,8 @@ class StudentController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $student = new Student();
-        $form = $this->createForm(StudentWithUserType::class, $student);
-        $form->handleRequest($request);
 
-
-        //$student = $form->getData();
-        //dd($student);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($student);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('student_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render(
-            'student/new.html.twig',
-            [
-                'student' => $student,
-                'form' => $form->createView(),
-            ]
-        );
-        //return $this->basicCreateUpdateMethod($request, $student, $entityManager/*, $form*/);
+        return $this->basicCreateUpdateMethod($request, $student, $entityManager/*, $form*/);
     }
 
     /**
@@ -92,23 +70,6 @@ class StudentController extends AbstractController
      */
     public function edit(Request $request, Student $student, EntityManagerInterface $entityManager): Response
     {
-//        $form = $this->createForm(StudentWithUserType::class, $student);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $entityManager->persist($student);
-//            $entityManager->flush();
-//
-//            return $this->redirectToRoute('student_index', [], Response::HTTP_SEE_OTHER);
-//        }
-//
-//        return $this->render(
-//            'student/edit.html.twig',
-//            [
-//                'student' => $student,
-//                'form' => $form->createView(),
-//            ]
-//        );
         return $this->basicCreateUpdateMethod($request, $student, $entityManager/*, $form*/);
     }
 
@@ -119,11 +80,6 @@ class StudentController extends AbstractController
     public function delete(Request $request, Student $student, EntityManagerInterface $entityManager): Response
     {
 
-//        if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token')))
-//        {
-//            $entityManager->remove($student);
-//            $entityManager->flush();
-//        }
         $this->deleteEntity->deleteEntityObject(
             $request,
             $student,
@@ -135,11 +91,10 @@ class StudentController extends AbstractController
 
     private function basicCreateUpdateMethod(
         Request $request,
-        Student $student,
-        EntityManagerInterface $entityManager/*, FormInterface $form*/
-    ): Response
-    {
-        $form = $this->createForm(StudentWithUserType::class, $student);
+        ?Student $student,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(StudentWithUserType::class, $student, ['action' => $request->getUri()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
