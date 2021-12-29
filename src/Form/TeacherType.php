@@ -15,19 +15,24 @@ class TeacherType extends AbstractType
     {
         $builder
             ->add('salary')
-            ->add('courses', EntityType::class, [
-                'class' => Course::class,
-                'by_reference' => false,
-                'multiple' => true,
-            ])
-            ->add('user')
-        ;
+            ->add(
+                'courses',
+                EntityType::class,
+                [
+                    'class' => Course::class,
+                    'by_reference' => false,
+                    'multiple' => true,
+                ]
+            )
+            ->add('user');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Teacher::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Teacher::class,
+            ]
+        );
     }
 }

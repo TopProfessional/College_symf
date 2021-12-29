@@ -39,8 +39,7 @@ class PasswordSubscriber implements EventSubscriber
     private function hashPassword($args): void
     {
         $user = $args->getEntity();
-        if ($user instanceof User)
-        {
+        if ($user instanceof User) {
             // Encoder
             $plainpwd = $user->getPassword();
             $encoded = $this->passwordEncoder->encodePassword($user, $plainpwd);

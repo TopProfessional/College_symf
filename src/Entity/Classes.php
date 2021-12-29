@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ClassesRepository::class)
  */
-class Classes
+class Classes implements EntityInterface
 {
     use EntityIdTrait;
 
@@ -20,7 +20,7 @@ class Classes
     private ?string $name = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=Teacher::class, inversedBy="classes", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Teacher::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Teacher $teacher = null;

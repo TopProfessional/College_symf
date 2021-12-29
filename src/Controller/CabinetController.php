@@ -25,12 +25,15 @@ class CabinetController extends AbstractController
     /**
      * @Route("/cabinet", name="user_cabinet")
      */
-    public function enterToTheCabinet( ): Response
+    public function enterToTheCabinet(): Response
     {
         $user = $this->security->getUser();
 
-        return $this->render('cabinet/index.html.twig', [
-            'user' => $user,
-        ]);
+        return $this->render(
+            'cabinet/index.html.twig',
+            [
+                'user' => $user,
+            ]
+        );
     }
 }

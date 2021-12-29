@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Course;
 use App\Entity\Classes;
 use App\Entity\Student;
-use Doctrine\ORM\Mapping\PreRemove;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -30,7 +29,10 @@ class StudentWithUserType extends AbstractType
     {
         $builder
             ->add('age')
-            ->add('photo', FileType::class, [
+            ->add(
+                'photo',
+                FileType::class,
+                [
                     'label' => 'Profile photo',
 
                     // unmapped means that this field is not associated to any entity property
@@ -43,44 +45,57 @@ class StudentWithUserType extends AbstractType
                     // unmapped fields can't define their validation using annotations
                     // in the associated entity, so you can use the PHP constraint classes
                     'constraints' => [
-                        new File([
-                            'maxSize' => '1024k',
+                        new File(
+                            [
+                                'maxSize' => '1024k',
 
-                        ])
+                            ]
+                        ),
                     ],
-                ])
+                ]
+            )
             ->add('startDate')
-            ->add('courses', EntityType::class , [
-                'class' => Course::class,
-                'by_reference' => false,
-                'multiple' => true,
-            ])
+            ->add(
+                'courses',
+                EntityType::class,
+                [
+                    'class' => Course::class,
+                    'by_reference' => false,
+                    'multiple' => true,
+                ]
+            )
+            ->add(
+                'classes',
+                EntityType::class,
+                [
+                    'class' => Classes::class,
+                    'multiple' => false,
+                ]
+            )
+            ->add('user', UserType::class);
 
-            ->add('classes', EntityType::class , [
-                'class' => Classes::class,
-                'multiple' => false,
-            ])
-            ->add('user', UserType::class)
-        ;
-
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event): void {
-            $form = $event->getForm();
-            $student = $form->getData();
-            $uploadedFile = $form['photo']->getData();
-            if($uploadedFile)
-            {
-                $newFilename = $this->uploaderHelper->uploadArticleImage($uploadedFile);
-                $student->setPhoto($newFilename);
+        $builder->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event): void {
+                $form = $event->getForm();
+                $student = $form->getData();
+                $uploadedFile = $form['photo']->getData();
+                if ($uploadedFile) {
+                    $newFilename = $this->uploaderHelper->uploadArticleImage($uploadedFile);
+                    $student->setPhoto($newFilename);
+                }
             }
-        });
+        );
 
-        
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Student::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Student::class,
+            ]
+        );
     }
 }
