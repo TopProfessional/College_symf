@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=CourseRepository::class)
  */
-class Course
+class Course implements EntityInterface
 {
     use EntityIdTrait;
 
@@ -122,9 +122,9 @@ class Course
         return $this;
     }
 
-    public function __toString():string
+    public function __toString(): string
     {
-        return (string) $this->name;
+        return (string)$this->name;
     }
 
     /**

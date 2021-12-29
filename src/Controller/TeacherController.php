@@ -23,9 +23,12 @@ class TeacherController extends AbstractController
      */
     public function index(TeacherRepository $teacherRepository): Response
     {
-        return $this->render('teacher/index.html.twig', [
-            'teachers' => $teacherRepository->findAll(),
-        ]);
+        return $this->render(
+            'teacher/index.html.twig',
+            [
+                'teachers' => $teacherRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -45,10 +48,13 @@ class TeacherController extends AbstractController
             return $this->redirectToRoute('teacher_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('teacher/new.html.twig', [
-            'teacher' => $teacher,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'teacher/new.html.twig',
+            [
+                'teacher' => $teacher,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -56,9 +62,12 @@ class TeacherController extends AbstractController
      */
     public function show(Teacher $teacher): Response
     {
-        return $this->render('teacher/show.html.twig', [
-            'teacher' => $teacher,
-        ]);
+        return $this->render(
+            'teacher/show.html.twig',
+            [
+                'teacher' => $teacher,
+            ]
+        );
     }
 
     /**
@@ -77,10 +86,13 @@ class TeacherController extends AbstractController
             return $this->redirectToRoute('teacher_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('teacher/edit.html.twig', [
-            'teacher' => $teacher,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'teacher/edit.html.twig',
+            [
+                'teacher' => $teacher,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**

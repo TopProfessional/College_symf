@@ -24,9 +24,12 @@ class ClassesController extends AbstractController
      */
     public function index(ClassesRepository $classesRepository): Response
     {
-        return $this->render('classes/index.html.twig', [
-            'classes' => $classesRepository->findAll(),
-        ]);
+        return $this->render(
+            'classes/index.html.twig',
+            [
+                'classes' => $classesRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -49,10 +52,13 @@ class ClassesController extends AbstractController
 
 //        $this->basicEntityMethods($request, $form,  $class, $entityManager, $defaultReturn);
 
-        return $this->render('classes/new.html.twig', [
+        return $this->render(
+            'classes/new.html.twig',
+            [
                 'class' => $class,
                 'form' => $form->createView(),
-                ]);
+            ]
+        );
     }
 
     /**
@@ -60,9 +66,12 @@ class ClassesController extends AbstractController
      */
     public function show(Classes $class): Response
     {
-        return $this->render('classes/show.html.twig', [
-            'class' => $class,
-        ]);
+        return $this->render(
+            'classes/show.html.twig',
+            [
+                'class' => $class,
+            ]
+        );
     }
 
     /**
@@ -79,13 +88,17 @@ class ClassesController extends AbstractController
             //$this->basicEntityMethods($class, $entityManager);
             $entityManager->persist($class);
             $entityManager->flush();
+
             return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('classes/edit.html.twig', [
-            'class' => $class,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'classes/edit.html.twig',
+            [
+                'class' => $class,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -102,10 +115,11 @@ class ClassesController extends AbstractController
         return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
     }
 
-  private function basicEntityMethods(Classes $class, EntityManagerInterface $entityManager): RedirectResponse
+    private function basicEntityMethods(Classes $class, EntityManagerInterface $entityManager): RedirectResponse
     {
-            $entityManager->persist($class);
-            $entityManager->flush();
-            return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
+        $entityManager->persist($class);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
     }
 }

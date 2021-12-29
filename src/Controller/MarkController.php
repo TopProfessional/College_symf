@@ -22,9 +22,12 @@ class MarkController extends AbstractController
      */
     public function index(MarkRepository $markRepository): Response
     {
-        return $this->render('mark/index.html.twig', [
-            'marks' => $markRepository->findAll(),
-        ]);
+        return $this->render(
+            'mark/index.html.twig',
+            [
+                'marks' => $markRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -44,10 +47,13 @@ class MarkController extends AbstractController
             return $this->redirectToRoute('mark_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('mark/new.html.twig', [
-            'mark' => $mark,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'mark/new.html.twig',
+            [
+                'mark' => $mark,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -55,9 +61,12 @@ class MarkController extends AbstractController
      */
     public function show(Mark $mark): Response
     {
-        return $this->render('mark/show.html.twig', [
-            'mark' => $mark,
-        ]);
+        return $this->render(
+            'mark/show.html.twig',
+            [
+                'mark' => $mark,
+            ]
+        );
     }
 
     /**
@@ -76,10 +85,13 @@ class MarkController extends AbstractController
             return $this->redirectToRoute('mark_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('mark/edit.html.twig', [
-            'mark' => $mark,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'mark/edit.html.twig',
+            [
+                'mark' => $mark,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**

@@ -22,9 +22,12 @@ class CourseController extends AbstractController
      */
     public function index(CourseRepository $courseRepository): Response
     {
-        return $this->render('course/index.html.twig', [
-            'courses' => $courseRepository->findAll(),
-        ]);
+        return $this->render(
+            'course/index.html.twig',
+            [
+                'courses' => $courseRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -41,13 +44,16 @@ class CourseController extends AbstractController
             $entityManager->persist($course);
             $entityManager->flush();
 
-             return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('course/new.html.twig', [
-            'course' => $course,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'course/new.html.twig',
+            [
+                'course' => $course,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -55,9 +61,12 @@ class CourseController extends AbstractController
      */
     public function show(Course $course): Response
     {
-        return $this->render('course/show.html.twig', [
-            'course' => $course,
-        ]);
+        return $this->render(
+            'course/show.html.twig',
+            [
+                'course' => $course,
+            ]
+        );
     }
 
     /**
@@ -76,10 +85,13 @@ class CourseController extends AbstractController
             return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('course/edit.html.twig', [
-            'course' => $course,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'course/edit.html.twig',
+            [
+                'course' => $course,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
