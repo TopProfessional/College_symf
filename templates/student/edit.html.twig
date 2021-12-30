@@ -2,13 +2,12 @@
 {% set isNew = not ( form.vars.data and form.vars.data.id ) %}
 
 {% block title %}
-
     {% if isNew %}
         Add
     {% else %}
         Edit*
     {% endif %}
-    Student
+        Student
 {% endblock %}
 
 {% block body %}

@@ -9,8 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -39,26 +37,7 @@ class UserClassController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $class = new UserClass();
-        $form = $this->createForm(UserClassType::class, $class);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($class);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-//        $this->basicEntityMethods($request, $form,  $class, $entityManager, $defaultReturn);
-
-        return $this->render(
-            'classes/new.html.twig',
-            [
-                'class' => $class,
-                'form' => $form->createView(),
-            ]
-        );
+        return $this->basicCreateUpdateMethod($request, $class, $entityManager);
     }
 
     /**
@@ -80,25 +59,7 @@ class UserClassController extends AbstractController
      */
     public function edit(Request $request, UserClass $class, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UserClassType::class, $class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            //$this->basicEntityMethods($class, $entityManager);
-            $entityManager->persist($class);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render(
-            'classes/edit.html.twig',
-            [
-                'class' => $class,
-                'form' => $form->createView(),
-            ]
-        );
+        return $this->basicCreateUpdateMethod($request, $class, $entityManager);
     }
 
     /**
@@ -115,11 +76,27 @@ class UserClassController extends AbstractController
         return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    private function basicEntityMethods(UserClass $class, EntityManagerInterface $entityManager): RedirectResponse
-    {
-        $entityManager->persist($class);
-        $entityManager->flush();
+    private function basicCreateUpdateMethod(
+        Request $request,
+        ?UserClass $class,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(UserClassType::class, $class, ['action' => $request->getUri()]);
+        $form->handleRequest($request);
 
-        return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($class);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('classes_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render(
+            'classes/edit.html.twig',
+            [
+                'class' => $class,
+                'form' => $form->createView(),
+            ]
+        );
     }
 }
