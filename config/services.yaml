@@ -22,7 +22,7 @@ services:
             - '../src/Tests/'
             - '../src/Controller/'
             - '../src/Service/'
-            - '../src/Subscribers/'
+            - '../src/Event/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -32,12 +32,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Subscribers\PasswordSubscriber:
+    App\Event\Subscribers\PasswordSubscriber:
         tags:
             - { name: 'doctrine.event_subscriber', connection: default}
 
     # Arguments for DeleteImageSubscriber
-    App\Subscribers\DeleteImageSubscriber:
+    App\Event\Subscribers\DeleteImageSubscriber:
         arguments:
             $uploadsPath: '%kernel.project_dir%/public/uploads'
         tags:

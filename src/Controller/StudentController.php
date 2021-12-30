@@ -11,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
@@ -19,10 +18,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class StudentController extends AbstractController
 {
-    private UserPasswordEncoderInterface $passwordEncoder;
     private DeleteEntityObjectHelper $deleteEntity;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, DeleteEntityObjectHelper $deleteEntity)
+    public function __construct(DeleteEntityObjectHelper $deleteEntity)
     {
         $this->deleteEntity = $deleteEntity;
     }
@@ -48,7 +46,7 @@ class StudentController extends AbstractController
     {
         $student = new Student();
 
-        return $this->basicCreateUpdateMethod($request, $student, $entityManager/*, $form*/);
+        return $this->basicCreateUpdateMethod($request, $student, $entityManager);
     }
 
     /**
@@ -70,7 +68,7 @@ class StudentController extends AbstractController
      */
     public function edit(Request $request, Student $student, EntityManagerInterface $entityManager): Response
     {
-        return $this->basicCreateUpdateMethod($request, $student, $entityManager/*, $form*/);
+        return $this->basicCreateUpdateMethod($request, $student, $entityManager);
     }
 
     /**

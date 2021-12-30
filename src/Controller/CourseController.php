@@ -37,23 +37,8 @@ class CourseController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $course = new Course();
-        $form = $this->createForm(CourseType::class, $course);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($course);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render(
-            'course/new.html.twig',
-            [
-                'course' => $course,
-                'form' => $form->createView(),
-            ]
-        );
+        return $this->basicCreateUpdateMethod($request, $course, $entityManager);
     }
 
     /**
@@ -75,7 +60,29 @@ class CourseController extends AbstractController
      */
     public function edit(Request $request, Course $course, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(CourseType::class, $course);
+        return $this->basicCreateUpdateMethod($request, $course, $entityManager);
+    }
+
+    /**
+     * @Route("/{id}", name="course_delete", methods={"POST"}, requirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function delete(Request $request, Course $course, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$course->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($course);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function basicCreateUpdateMethod(
+        Request $request,
+        ?Course $course,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(CourseType::class, $course, ['action' => $request->getUri()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,19 +99,5 @@ class CourseController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
-    }
-
-    /**
-     * @Route("/{id}", name="course_delete", methods={"POST"}, requirements={"id"="\d+"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function delete(Request $request, Course $course, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$course->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($course);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('course_index', [], Response::HTTP_SEE_OTHER);
     }
 }

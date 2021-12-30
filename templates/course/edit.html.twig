@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
+{% set isNew = not ( form.vars.data and form.vars.data.id ) %}
 
-{% block title %}Edit Course{% endblock %}
+{% block title %}
+    {% if isNew %}
+        Add
+    {% else %}
+        Edit*
+    {% endif %}
+        Course
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Course</h1>
+    <h1>{{ block('title') }}</h1>
 
     {{ include('course/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('course_index') }}">back to list</a>
 
-    {{ include('course/_delete_form.html.twig') }}
+    {% if not isNew %}
+        {{ include('course/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

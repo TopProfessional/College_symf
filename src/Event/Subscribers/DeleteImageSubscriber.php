@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Subscribers;
+namespace App\Event\Subscribers;
 
 use App\Entity\Student;
 use Doctrine\Common\EventSubscriber;
