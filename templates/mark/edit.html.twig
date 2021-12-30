@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
+{% set isNew = not ( form.vars.data and form.vars.data.id ) %}
 
-{% block title %}Edit Mark{% endblock %}
+{% block title %}
+    {% if isNew %}
+        Add
+    {% else %}
+        Edit*
+    {% endif %}
+        Mark
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Mark</h1>
+    <h1>{{ block('title') }}</h1>
 
     {{ include('mark/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('mark_index') }}">back to list</a>
 
-    {{ include('mark/_delete_form.html.twig') }}
+    {% if not isNew %}
+        {{ include('mark/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

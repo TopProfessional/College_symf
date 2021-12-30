@@ -2,16 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Course;
-use App\Form\CourseType;
-use App\Repository\CourseRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class CabinetController extends AbstractController
 {

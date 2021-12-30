@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Teacher;
-use App\Form\TeacherType;
 use App\Form\TeacherWithUserType;
 use App\Repository\TeacherRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,23 +37,8 @@ class TeacherController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $teacher = new Teacher();
-        $form = $this->createForm(TeacherWithUserType::class, $teacher);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($teacher);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('teacher_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render(
-            'teacher/new.html.twig',
-            [
-                'teacher' => $teacher,
-                'form' => $form->createView(),
-            ]
-        );
+        return $this->basicCreateUpdateMethod($request, $teacher, $entityManager);
     }
 
     /**
@@ -76,7 +60,29 @@ class TeacherController extends AbstractController
      */
     public function edit(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(TeacherWithUserType::class, $teacher);
+        return $this->basicCreateUpdateMethod($request, $teacher, $entityManager);
+    }
+
+    /**
+     * @Route("/{id}", name="teacher_delete", methods={"POST"}, requirements={"id"="\d+"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function delete(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$teacher->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($teacher);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('teacher_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function basicCreateUpdateMethod(
+        Request $request,
+        ?Teacher $teacher,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(TeacherWithUserType::class, $teacher, ['action' => $request->getUri()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -93,19 +99,5 @@ class TeacherController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
-    }
-
-    /**
-     * @Route("/{id}", name="teacher_delete", methods={"POST"}, requirements={"id"="\d+"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function delete(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$teacher->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($teacher);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('teacher_index', [], Response::HTTP_SEE_OTHER);
     }
 }
