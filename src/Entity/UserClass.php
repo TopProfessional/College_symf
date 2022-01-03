@@ -20,10 +20,10 @@ class UserClass implements IdentifiableInterface
     private ?string $name = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=Teacher::class, inversedBy="classes")
+     * @ORM\ManyToMany(targetEntity=Teacher::class, inversedBy="classes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Teacher $teacher = null;
+    private Collection $teachers;
 
     /**
      * @ORM\OneToMany(targetEntity=Student::class, mappedBy="classes")
@@ -33,6 +33,7 @@ class UserClass implements IdentifiableInterface
     public function __construct()
     {
         $this->students = new ArrayCollection();
+        $this->teachers = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -52,14 +53,32 @@ class UserClass implements IdentifiableInterface
         return (string) $this->name;
     }
 
-    public function getTeacher(): ?Teacher
+    /**
+     * @return Collection|Teacher[]
+     */
+    public function getTeachers(): Collection
     {
-        return $this->teacher;
+        return $this->teachers;
     }
 
-    public function setTeacher(Teacher $teacher): self
+    public function addTeacher(Teacher $teacher): self
     {
-        $this->teacher = $teacher;
+        if (!$this->teachers->contains($teacher)) {
+            $this->teachers->add($teacher);
+            $teacher->addClasses($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeacher(Teacher $teacher): self
+    {
+        if ($this->teachers->removeElement($teacher)) {
+            // set the owning side to null (unless already changed)
+            if ($teacher->getClasses() === $this) {
+                $teacher->addClasses(null);
+            }
+        }
 
         return $this;
     }
@@ -90,7 +109,6 @@ class UserClass implements IdentifiableInterface
                 $student->setClasses(null);
             }
         }
-
         return $this;
     }
 }

@@ -83,7 +83,7 @@ class Course implements IdentifiableInterface
     public function addStudent(Student $student): self
     {
         if (!$this->students->contains($student)) {
-            $this->students[] = $student;
+            $this->students->add($student);
             $student->addCourse($this);
         }
 
