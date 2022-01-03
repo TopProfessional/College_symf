@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Teacher;
 use App\Form\TeacherWithUserType;
 use App\Repository\TeacherRepository;
+use App\Service\DeleteEntityObjectHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class TeacherController extends AbstractController
 {
+    private DeleteEntityObjectHelper $deleteEntity;
+
+    public function __construct(DeleteEntityObjectHelper $deleteEntity)
+    {
+        $this->deleteEntity = $deleteEntity;
+    }
+
     /**
      * @Route(name="teacher_index", methods={"GET"})
      */
@@ -67,14 +75,14 @@ class TeacherController extends AbstractController
      * @Route("/{id}", name="teacher_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function delete(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Teacher $teacher, EntityManagerInterface $entityManager, String $route = 'teacher_index'): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$teacher->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($teacher);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('teacher_index', [], Response::HTTP_SEE_OTHER);
+        return $this->deleteEntity->deleteEntityObject(
+            $request,
+            $teacher,
+            $entityManager,
+            $route
+        );
     }
 
     private function basicCreateUpdateMethod(

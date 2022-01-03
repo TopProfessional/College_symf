@@ -75,16 +75,13 @@ class StudentController extends AbstractController
      * @Route("/{id}", name="student_delete", methods={"POST"}, requirements={"id"="\d+"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function delete(Request $request, Student $student, EntityManagerInterface $entityManager): Response
-    {
-
-        $this->deleteEntity->deleteEntityObject(
+    public function delete(Request $request, Student $student, EntityManagerInterface $entityManager, String $route = 'student_index'): Response {
+        return $this->deleteEntity->deleteEntityObject(
             $request,
             $student,
-            $entityManager
+            $entityManager,
+            $route
         );
-
-        return $this->redirectToRoute('student_index', [], Response::HTTP_SEE_OTHER);
     }
 
     private function basicCreateUpdateMethod(
