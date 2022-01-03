@@ -54,16 +54,9 @@ Classes
 id, name, teacher(teacher_id), students(student_id)
 
 
-Class (one to one) teacher
+Class (Many to Many) teacher
 Class (one to many) students
 
-
-
-
-
-tags:
-            - { name: doctrine.event_listener, event: prePersist }
-            - { name: doctrine.event_listener, event: preUpdate }
 
 
 
