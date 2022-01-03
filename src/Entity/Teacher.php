@@ -33,13 +33,14 @@ class Teacher implements IdentifiableInterface
     private ?User $user = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=UserClass::class, mappedBy="teacher")
+     * @ORM\ManyToMany(targetEntity=UserClass::class, mappedBy="teachers")
      */
-    private ?UserClass $classes;
+    private Collection $classes;
 
     public function __construct()
     {
         $this->courses = new ArrayCollection();
+        $this->classes = new ArrayCollection();
     }
 
     public function getSalary(): ?float
@@ -81,6 +82,33 @@ class Teacher implements IdentifiableInterface
         return $this;
     }
 
+    /**
+     * @return Collection|UserClass[]
+     */
+    public function getClasses(): Collection
+    {
+        return $this->classes;
+    }
+
+    public function addClasses(UserClass $class): self
+    {
+        if (!$this->classes->contains($class)) {
+            $this->classes->add($class);
+            $class->addTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClasses(UserClass $class): self
+    {
+        if ($this->classes->removeElement($class)) {
+            $class->removeTeacher($this);
+        }
+
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -96,22 +124,5 @@ class Teacher implements IdentifiableInterface
     public function __toString(): string
     {
         return (string)$this->user;
-    }
-
-    public function getClasses(): ?UserClass
-    {
-        return $this->classes;
-    }
-
-    public function setClasses(UserClass $classes): self
-    {
-        // set the owning side of the relation if necessary
-        if ($classes->getTeacher() !== $this) {
-            $classes->setTeacher($this);
-        }
-
-        $this->classes = $classes;
-
-        return $this;
     }
 }

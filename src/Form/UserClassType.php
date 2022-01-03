@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Teacher;
 use App\Entity\UserClass;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,7 +15,16 @@ class UserClassType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('teacher');
+            ->add(
+                'teachers',
+                EntityType::class,
+                [
+                    'class' => Teacher::class,
+                    'by_reference' => false,
+                    'multiple' => true,
+                ]
+            );
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

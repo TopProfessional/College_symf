@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\DeleteEntityObjectHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +20,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class UserController extends AbstractController
 {
+    private DeleteEntityObjectHelper $deleteEntity;
+
+    public function __construct(DeleteEntityObjectHelper $deleteEntity)
+    {
+        $this->deleteEntity = $deleteEntity;
+    }
+
     /**
      * @Route(name="user_index", methods={"GET"})
      */
@@ -67,14 +77,14 @@ class UserController extends AbstractController
      * @Route("/{id}", name="user_delete", methods={"POST"}, requirements={"id"="\d+"})@IsGranted("ROLE_ADMIN")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager, String $route = 'user_index'): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->deleteEntity->deleteEntityObject(
+            $request,
+            $user,
+            $entityManager,
+            $route
+        );
     }
 
     private function basicCreateUpdateMethod(
