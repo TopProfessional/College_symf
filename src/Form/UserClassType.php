@@ -24,7 +24,6 @@ class UserClassType extends AbstractType
                     'multiple' => true,
                 ]
             );
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

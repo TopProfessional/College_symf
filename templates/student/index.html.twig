@@ -2,6 +2,15 @@
 
 {% block title %}Student index{% endblock %}
 
+
+
+{#{% block stylesheets %}#}
+{#    <link rel="stylesheet" href="{{ asset('build/app.css') }}">#}
+{#    {{ encore_entry_link_tags('app') }}#}
+{#{% endblock %}#}
+
+
+
 {% block body %}
     <h1>Student index</h1>
 
@@ -69,3 +78,7 @@
 
     <a href="{{ path('student_new') }}">Create new</a>
 {% endblock %}
+{#{% block javascripts %}#}
+{#    <script src="{{ asset('build/app.js') }}"></script>#}
+{#    {{ encore_entry_script_tags('app') }}#}
+{#{% endblock %}#}
