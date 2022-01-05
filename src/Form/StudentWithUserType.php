@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Service\UploaderHelper;
 
-
 class StudentWithUserType extends AbstractType
 {
     private UploaderHelper $uploaderHelper;
@@ -48,7 +47,6 @@ class StudentWithUserType extends AbstractType
                         new File(
                             [
                                 'maxSize' => '1024k',
-
                             ]
                         ),
                     ],
@@ -86,8 +84,6 @@ class StudentWithUserType extends AbstractType
                 }
             }
         );
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
