@@ -10,9 +10,19 @@ import './styles/app.css';
 
 //console.log('Hi!, dude');
 import getNiceMessage  from './js/get_nice_message';
-alert('f');
+
+import $ from 'jquery';
+
+//global.$ = $;
+
+$(document).ready(function(){
+    $("button").click(function(){
+        $("p").hide();
+    });
+});
 
 console.log(getNiceMessage(18));
+console.log(getNiceMessage(4));
 // start the Stimulus application
 import './bootstrap';
 
