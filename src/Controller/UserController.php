@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserFilterType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\DeleteEntityObjectHelper;
@@ -28,14 +29,24 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route(name="user_index", methods={"GET"})
+     * @Route(name="user_index", methods={"GET", "POST"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, Request $request): Response
     {
+        $form = $this->createForm(UserFilterType::class, ['action' => $request->getUri()]);
+        $form->handleRequest($request);
+        $users = $userRepository->findAll();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $roles = $form->getData()['roles'];
+            $users = $userRepository->findUsersByRoles($roles);
+        }
+
         return $this->render(
             'user/index.html.twig',
             [
-                'users' => $userRepository->findAll(),
+                'users' => $users,
+                'form' => $form->createView(),
             ]
         );
     }
