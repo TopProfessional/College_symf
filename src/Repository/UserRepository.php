@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\Expr\Orx;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,30 +22,25 @@ class UserRepository extends ServiceEntityRepository
     // for solo select (UserFilterType-> multiple=> false)
 
     /**
-     * @return array
+     * @param array<string,mixed> $filter
+     *
+     * @return User[]
      */
-    public function findUsersByRoles($roles): array
+    public function findByFilter(?array $filter): array
     {
-        if ($roles === 'ROLE_USER') {
-            $roles = 'ROLE_%';
-        }
-        
-        $rolesString = '["'. $roles.'"]';
-        // dd($rolesString);
-        $correctRoles = explode(",", $rolesString);
+        $filter ??= [];
         $qb = $this->createQueryBuilder('users');
 
-        $conditions = [];
-        foreach ($correctRoles as $index => $role) {
-            $conditions[] = "users.roles LIKE :role$index";
-            $qb->setParameter("role$index", $role);
+        $conditions = $qb->expr()->orX();
+
+        if ($role = $filter['role'] ?? null) {
+            $conditions->add("users.roles LIKE :role");
+            $qb->setParameter('role', '%"'.$role.'"%');
         }
 
-        if (empty($conditions)) {
-            throw new \LogicException('Conditions are empty.');
+        if ($conditions->count()) {
+            $qb->andWhere($conditions);
         }
-
-        $qb->Where(new Orx($conditions));
 
         return $qb->getQuery()->execute();
     }
@@ -62,7 +56,7 @@ class UserRepository extends ServiceEntityRepository
     //         $roles = [0 => 'ROLE_%'];
     //     }
 
-        
+
     //     $rolesString = '["'.implode('"],["', $roles).'"]';
     //     $correctRoles = explode(",", $rolesString);
     //     $qb = $this->createQueryBuilder('users');

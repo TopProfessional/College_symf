@@ -15,14 +15,14 @@ class UserFilterType extends AbstractType
     {
         $builder
             ->add(
-                'roles',
+                'role',
                 ChoiceType::class,
                 [
                     'multiple' => false,
                     'expanded' => false,
                     'required' => true,
                     'choices' => [
-                        'All' => User::ROLE_USER,
+                        'All' => null,
                         'Admin' => User::ROLE_ADMIN,
                         'Teacher' => User::ROLE_TEACHER,
                         'Student' => User::ROLE_STUDENT,

@@ -33,23 +33,9 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $form = $this->createForm(UserFilterType::class, ['action' => $request->getUri()]);
+        $form = $this->createForm(UserFilterType::class, null, ['action' => $request->getUri(), 'method' => Request::METHOD_GET ]);
         $form->handleRequest($request);
-
-        $roles = $request->query->get('roles');
-        
-        if(isset($roles))
-        {
-            $users = $userRepository->findUsersByRoles($roles);
-        }else{
-            $users = $userRepository->findAll();
-        }
-        
-        if ($form->isSubmitted()) {
-            $roles = $form->getData()['roles'];
-            
-            return $this->redirect($this->generateUrl('user_index', ['roles' => $roles]));
-        }
+        $users = $userRepository->findByFilter($form->getData());
 
         return $this->render(
             'user/index.html.twig',
