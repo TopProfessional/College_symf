@@ -33,6 +33,11 @@ class UserRepository extends ServiceEntityRepository
 
         $conditions = $qb->expr()->orX();
 
+        if ($search = $filter['search'] ?? null) {
+            $conditions->add('users.email LIKE :search or users.username LIKE :search');
+            $qb->setParameter('search', '%'.$search.'%');
+        }
+
         if ($role = $filter['role'] ?? null) {
             $conditions->add("users.roles LIKE :role");
             $qb->setParameter('role', '%"'.$role.'"%');
