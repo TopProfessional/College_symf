@@ -18,7 +18,7 @@ class UserFilterType extends AbstractType
                 'roles',
                 ChoiceType::class,
                 [
-                    'multiple' => true,
+                    'multiple' => false,
                     'expanded' => false,
                     'required' => true,
                     'choices' => [
@@ -36,6 +36,7 @@ class UserFilterType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => null,
+                'csrf_protection'   => false,
             ]
         );
     }

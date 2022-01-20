@@ -27,4 +27,3 @@ final class Version20220103120739 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_F89E2C741807E1D ON user_class (teacher_id)');
     }
 }
-//check
