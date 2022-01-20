@@ -33,7 +33,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $form = $this->createForm(UserFilterType::class, null, ['action' => $request->getUri(), 'method' => Request::METHOD_GET ]);
+        $form = $this->createForm(UserFilterType::class, null, ['action' => $this->generateUrl('user_index'), 'method' => Request::METHOD_GET ]);
         $form->handleRequest($request);
         $users = $userRepository->findByFilter($form->getData());
 
