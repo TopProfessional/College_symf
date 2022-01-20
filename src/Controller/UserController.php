@@ -35,11 +35,20 @@ class UserController extends AbstractController
     {
         $form = $this->createForm(UserFilterType::class, ['action' => $request->getUri()]);
         $form->handleRequest($request);
-        $users = $userRepository->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $roles = $form->getData()['roles'];
+        $roles = $request->query->get('roles');
+        
+        if(isset($roles))
+        {
             $users = $userRepository->findUsersByRoles($roles);
+        }else{
+            $users = $userRepository->findAll();
+        }
+        
+        if ($form->isSubmitted()) {
+            $roles = $form->getData()['roles'];
+            
+            return $this->redirect($this->generateUrl('user_index', ['roles' => $roles]));
         }
 
         return $this->render(
