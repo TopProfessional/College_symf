@@ -14,14 +14,14 @@ class UserFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('search')
+            ->add('search', null, ['required' => false])
             ->add(
                 'role',
                 ChoiceType::class,
                 [
                     'multiple' => false,
                     'expanded' => false,
-                    'required' => true,
+                    'required' => false,
                     'choices' => [
                         'All' => null,
                         'Admin' => User::ROLE_ADMIN,
