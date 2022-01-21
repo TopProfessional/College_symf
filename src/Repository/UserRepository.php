@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,14 +20,12 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    // for solo select (UserFilterType-> multiple=> false)
-
     /**
      * @param array<string,mixed> $filter
      *
-     * @return User[]
+     * @return QueryBuilder
      */
-    public function findByFilter(?array $filter)//: array
+    public function findByFilter(?array $filter): QueryBuilder//: array
     {
         $filter ??= [];
         $qb = $this->createQueryBuilder('users');
@@ -47,6 +46,6 @@ class UserRepository extends ServiceEntityRepository
             $qb->andWhere($conditions);
         }
 
-        return $qb;//->getQuery()->execute();
+        return $qb;
     }
 }
