@@ -26,7 +26,7 @@ class UserRepository extends ServiceEntityRepository
      *
      * @return User[]
      */
-    public function findByFilter(?array $filter): array
+    public function findByFilter(?array $filter)//: array
     {
         $filter ??= [];
         $qb = $this->createQueryBuilder('users');
@@ -47,6 +47,6 @@ class UserRepository extends ServiceEntityRepository
             $qb->andWhere($conditions);
         }
 
-        return $qb->getQuery()->execute();
+        return $qb;//->getQuery()->execute();
     }
 }
