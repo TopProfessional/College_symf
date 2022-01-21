@@ -45,7 +45,7 @@ class UserController extends AbstractController
         $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
         $pagerfanta->setMaxPerPage($maxPerPage);
   
-        if(isset($currPage)){
+        if($currPage != null){
             $pagerfanta->setCurrentPage($currPage);
         }
         
