@@ -41,7 +41,10 @@ class UserController extends AbstractController
         $maxPerPage = 3;
         $currPage = intval($request->query->get('page'));
         
-        $queryBuilder = $userRepository->findByFilter($form->getData());
+        $sortBy = $request->query->get('sort');
+        // dd($sortBy);
+
+        $queryBuilder = $userRepository->findByFilter($form->getData(), $request->get('order_by', $sortBy) );
         $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
         $pagerfanta->setMaxPerPage($maxPerPage);
   
