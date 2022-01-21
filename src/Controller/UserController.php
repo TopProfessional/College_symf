@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
  * @Route("/users")
@@ -35,12 +37,22 @@ class UserController extends AbstractController
     {
         $form = $this->createForm(UserFilterType::class, null, ['action' => $this->generateUrl('user_index'), 'method' => Request::METHOD_GET ]);
         $form->handleRequest($request);
-        $users = $userRepository->findByFilter($form->getData());
-
+       
+        $maxPerPage = 3;
+        $currPage = intval($request->query->get('page'));
+        
+        $queryBuilder = $userRepository->findByFilter($form->getData());
+        $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
+        $pagerfanta->setMaxPerPage($maxPerPage);
+  
+        if($currPage != null){
+            $pagerfanta->setCurrentPage($currPage);
+        }
+        
         return $this->render(
             'user/index.html.twig',
             [
-                'users' => $users,
+                'pager' => $pagerfanta,
                 'form' => $form->createView(),
             ]
         );
