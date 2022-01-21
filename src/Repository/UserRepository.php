@@ -49,35 +49,4 @@ class UserRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->execute();
     }
-
-    // for multiple select (UserFilterType-> multiple=> true)
-
-    // /**
-    //  * @return array
-    //  */
-    // public function findUsersByRoles($roles): array
-    // {
-    //     if ($roles[0] === 'ROLE_USER') {
-    //         $roles = [0 => 'ROLE_%'];
-    //     }
-
-
-    //     $rolesString = '["'.implode('"],["', $roles).'"]';
-    //     $correctRoles = explode(",", $rolesString);
-    //     $qb = $this->createQueryBuilder('users');
-
-    //     $conditions = [];
-    //     foreach ($correctRoles as $index => $role) {
-    //         $conditions[] = "users.roles LIKE :role$index";
-    //         $qb->setParameter("role$index", $role);
-    //     }
-
-    //     if (empty($conditions)) {
-    //         throw new \LogicException('Conditions are empty.');
-    //     }
-
-    //     $qb->Where(new Orx($conditions));
-
-    //     return $qb->getQuery()->execute();
-    // }
 }
