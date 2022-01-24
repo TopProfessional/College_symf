@@ -8,18 +8,17 @@
     {{ include('partial/_form.html.twig', {'button_label': 'Aply'}) }}
 
     <h1>User index</h1>
-{{usualUrl}}
+{# {{usualUrl}} #}
 
     <table class="table">
         <thead>
-             <tr>
+            <tr>
                 {% if usualUrl == app.request.uri %}
                     <th><a href="{{ usualUrl }}?sort=email">Email</a></th>
                     <th><a href="{{ usualUrl }}?sort=roles">Roles</a></th>
                     <th><a href="{{ usualUrl }}?sort=username">Name</a></th>
                     <th>Password</th>
-                    <th><a href="{{ usualUrl }}?sort=id">Id</a></th>
-                    
+                    <th><a href="{{ usualUrl }}?sort=id">Id</a></th>        
                 {% else %}
                     <th><a href="{{ app.request.uri }}&sort=email">Email</a> </th>
                     <th><a href="{{ app.request.uri }}&sort=roles">Roles</a></th>
