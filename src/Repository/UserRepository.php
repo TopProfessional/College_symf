@@ -25,8 +25,9 @@ class UserRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder
      */
-    public function findByFilter(?array $filter): QueryBuilder//: array
+    public function findByFilter(?array $filter, $orderby = null): QueryBuilder//: array
     {
+        // dd($orderby);
         $filter ??= [];
         $qb = $this->createQueryBuilder('users');
 
@@ -45,7 +46,11 @@ class UserRepository extends ServiceEntityRepository
         if ($conditions->count()) {
             $qb->andWhere($conditions);
         }
-
+        // add custom order by
+        if($orderby == 'email' || $orderby == 'roles' || $orderby == 'name' || $orderby == 'id'){
+            $qb->orderBy('users.'.$orderby , 'ASC');
+        }
+        
         return $qb;
     }
 }
