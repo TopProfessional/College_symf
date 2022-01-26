@@ -35,7 +35,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository, Request $request): Response
     {
-    $form = $this->createForm(UserFilterType::class, null, ['action' => $this->generateUrl('user_index')/*, 'method' => Request::METHOD_GET*/ ]);
+        $form = $this->createForm(UserFilterType::class, null, ['action' => $this->generateUrl('user_index')/*, 'method' => Request::METHOD_GET*/ ]);
         $form->handleRequest($request);
        
         $maxPerPage = 3;
@@ -46,7 +46,18 @@ class UserController extends AbstractController
         $sort = $request->query->get('sort');
         // dd($sortBy);
 
-        
+        $url = $request->getUri();
+        $r = parse_url($url);
+
+        //Великий Кусок кода
+            // dd($r['query']);
+            parse_str($r['query'], $output);
+
+            // dd($output);
+            // dd(
+                http_build_query($output);
+            // );
+
 
         if( isset($form->getData()['per_page'] ))
         {

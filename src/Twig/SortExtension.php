@@ -16,6 +16,7 @@ class SortExtension extends AbstractExtension
 
     public function showData(string $email)
     {
+        
         return $email;
     }
 
