@@ -11,8 +11,12 @@
     <body>
         {% block body %}{% endblock %}
 
-            <a href="{{ path('app_logout') }}">Logout</a>
-            
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <br/>
+                <br/>
+                <a href="{{ path('app_logout') }}">Logout</a>
+            {% endif %}
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

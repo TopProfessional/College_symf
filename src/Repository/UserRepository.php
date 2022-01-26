@@ -25,12 +25,10 @@ class UserRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder
      */
-    public function findByFilter(?array $filter, $orderby = null): QueryBuilder//: array
+    public function findByFilter(?array $filter, $field = null, $sort = null): QueryBuilder
     {
-        // dd($orderby);
         $filter ??= [];
         $qb = $this->createQueryBuilder('users');
-
         $conditions = $qb->expr()->orX();
 
         if ($search = $filter['search'] ?? null) {
@@ -46,11 +44,18 @@ class UserRepository extends ServiceEntityRepository
         if ($conditions->count()) {
             $qb->andWhere($conditions);
         }
-        // add custom order by
-        if($orderby == 'email' || $orderby == 'roles' || $orderby == 'name' || $orderby == 'id'){
-            $qb->orderBy('users.'.$orderby , 'ASC');
+
+        if(($field === 'email' || $field === 'roles' || $field === 'username' || $field === 'id') && ($sort === 'DESC' || $sort === 'ASC')) {
+            $qb->orderBy('users.'.$field, $sort);
+
+        } elseif($field === null && $sort === null) {
+            return $qb;
+
+        } else {
+            http_response_code(400);
+            throw new \Exception('Bad Request - '.http_response_code());
+
         }
-        
         return $qb;
     }
 }
