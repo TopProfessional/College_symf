@@ -1,82 +1,61 @@
 {% extends 'base.html.twig' %}
-{% set usualUrl = absolute_url('users')  %}
+{% set responseUrl = ''  %}
 
 {% block title %}User index{% endblock %}
 
 {% block body %}
     <p> Find by roles</p>
-    {{ include('partial/_form.html.twig', {'button_label': 'Aply'}) }}
+
+        {{ include('partial/_form.html.twig', {'button_label': 'Aply'}) }}
 
     <h1>User index</h1>
 
-
-
-
-       
     <table class="table">
         <thead>
             <tr>
-                {# {% if usualUrl == app.request.uri %}
-                    <th><a href="{{show('email')}}">test_ext</a></th>
-                    <th><a href="{{ usualUrl }}?sort=email">Email</a></th>
-                    <th><a href="{{ usualUrl }}?sort=roles">Roles</a></th>
-                    <th><a href="{{ usualUrl }}?sort=username">Name</a></th>
-                    <th>Password</th>
-                    <th><a href="{{ usualUrl }}?sort=id">Id</a></th>        
-                {% else %}
-                    <th><a href="{{ app.request.uri }}&sort=email">Email</a> </th>
-                    <th><a href="{{ app.request.uri }}&sort=roles">Roles</a></th>
-                    <th><a href="{{ app.request.uri }}&sort=username">Name</a></th>
-                    <th>Password</th>
-                    <th><a href="{{ app.request.uri }}&sort=id">Id</a></th>
-                {% endif %} #}
-
-                {# <th><a href="{{url('<current>') }}">test_ext</a></th> #}
                 <th>
-                    <a href="{{url('user_index', {'field':show('email'), 'sort': 'ASC'}) }}">email_up</a>
-                    <a href="{{url('user_index', {'field':show('email'), 'sort': 'DESC'}) }}">email_down</a>
-                </th>
-
+                    <a href="{{generate('email', 'ASC', curUrl, responseUrl)}}">email_up</a>
+                    <a href="{{generate('email', 'DESC', curUrl, responseUrl)}}">email_down</a>
+                </th>                
                 <th>
-                    <a href="{{url('user_index', {'field':show('id'), 'sort': 'ASC'}) }}">id_up</a>
-                    <a href="{{url('user_index', {'field':show('id'), 'sort': 'DESC'}) }}">id_down</a>
+                    <a href="{{generate('roles', 'ASC', curUrl, responseUrl)}}">roles_up</a>
+                    <a href="{{generate('roles', 'DESC', curUrl, responseUrl)}}">roles_down</a>
                 </th>  
-                
-
-                <th><a href="{{show('email')}}">test_ext</a></th>
+                <th>
+                    <a href="{{generate('username', 'ASC', curUrl, responseUrl)}}">Name_up</a>
+                    <a href="{{generate('username', 'DESC', curUrl, responseUrl)}}">Name_down</a>
+                </th>  
+                <th>Password</th>
+                <th>
+                    <a href="{{generate('id', 'ASC', curUrl, responseUrl)}}">id_up</a>
+                    <a href="{{generate('id', 'DESC', curUrl, responseUrl)}}">id_down</a>
+                </th>  
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
-
-        
-
-        
-        {% for user in pager %}
-            <tr>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.id }}</td>
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
+        <tbody>  
+            {% for user in pager %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.id }}</td>
+                    <td>
+                        <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                        <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-       <br/>
-    {{ pagerfanta(pager) }}
     <br/>
-    <a href="{{ path('user_new') }}">Create new</a>
+        {{ pagerfanta(pager) }}
     <br/>
-    <br/>
-    {# <a href="{{ path('app_logout') }}">Logout</a> #}
+    <a href="{{ path('user_new') }}">Create new</a>  
     
 {% endblock %}

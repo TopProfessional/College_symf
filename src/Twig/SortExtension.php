@@ -1,5 +1,5 @@
 <?php
-// src/Twig/SortExtension.php
+
 namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
@@ -10,15 +10,35 @@ class SortExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('show', [$this, 'showData']),
+            new TwigFunction('generate', [$this, 'generateSortUrl']),
         ];
     }
 
-    public function showData(string $email)
+    /**
+     * @param string $param - sort atribure
+     * @param string $sort - order by
+     * @param string $curUrl - current url
+     * @param string $responseUrl - generated url
+     *
+     * @return string
+     */
+    public function generateSortUrl(string $param, string $sort, string $curUrl, string $responseUrl): string
     {
-        
-        return $email;
-    }
+        $parseUrl = parse_url($curUrl);
 
-   
+        if(isset($parseUrl['query'])){
+
+            parse_str($parseUrl['query'], $output);
+            $output['field']=$param;
+            $output['sort']=$sort;
+            $responseUrl = 'users?'.http_build_query($output);
+        } else {
+
+            $output['field']=$param;
+            $output['sort']=$sort;
+            $responseUrl = 'users?'.http_build_query($output);
+        }
+
+        return  $responseUrl; 
+    }
 }
