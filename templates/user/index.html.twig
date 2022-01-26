@@ -8,12 +8,16 @@
     {{ include('partial/_form.html.twig', {'button_label': 'Aply'}) }}
 
     <h1>User index</h1>
-{# {{usualUrl}} #}
 
+
+
+
+       
     <table class="table">
         <thead>
             <tr>
-                {% if usualUrl == app.request.uri %}
+                {# {% if usualUrl == app.request.uri %}
+                    <th><a href="{{show('email')}}">test_ext</a></th>
                     <th><a href="{{ usualUrl }}?sort=email">Email</a></th>
                     <th><a href="{{ usualUrl }}?sort=roles">Roles</a></th>
                     <th><a href="{{ usualUrl }}?sort=username">Name</a></th>
@@ -25,11 +29,29 @@
                     <th><a href="{{ app.request.uri }}&sort=username">Name</a></th>
                     <th>Password</th>
                     <th><a href="{{ app.request.uri }}&sort=id">Id</a></th>
-                {% endif %}
+                {% endif %} #}
+
+                {# <th><a href="{{url('<current>') }}">test_ext</a></th> #}
+                <th>
+                    <a href="{{url('user_index', {'field':show('email'), 'sort': 'ASC'}) }}">email_up</a>
+                    <a href="{{url('user_index', {'field':show('email'), 'sort': 'DESC'}) }}">email_down</a>
+                </th>
+
+                <th>
+                    <a href="{{url('user_index', {'field':show('id'), 'sort': 'ASC'}) }}">id_up</a>
+                    <a href="{{url('user_index', {'field':show('id'), 'sort': 'DESC'}) }}">id_down</a>
+                </th>  
+                
+
+                <th><a href="{{show('email')}}">test_ext</a></th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
+
+        
+
+        
         {% for user in pager %}
             <tr>
                 <td>{{ user.email }}</td>

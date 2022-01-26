@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class UserFilterType extends AbstractType
@@ -14,6 +15,7 @@ class UserFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('per_page', null, ['required' => false])
             ->add('search', null, ['required' => false])
             ->add(
                 'role',
@@ -23,7 +25,7 @@ class UserFilterType extends AbstractType
                     'expanded' => false,
                     'required' => false,
                     'choices' => [
-                        'All' => null,
+                        // 'All' => null,
                         'Admin' => User::ROLE_ADMIN,
                         'Teacher' => User::ROLE_TEACHER,
                         'Student' => User::ROLE_STUDENT,
@@ -38,6 +40,7 @@ class UserFilterType extends AbstractType
             [
                 'data_class' => null,
                 'csrf_protection'   => false,
+                'method' => Request::METHOD_GET,
             ]
         );
     }

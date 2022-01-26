@@ -35,21 +35,43 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $form = $this->createForm(UserFilterType::class, null, ['action' => $this->generateUrl('user_index'), 'method' => Request::METHOD_GET ]);
+        $form = $this->createForm(UserFilterType::class, null, ['action' => $this->generateUrl('user_index')/*, 'method' => Request::METHOD_GET*/ ]);
         $form->handleRequest($request);
        
         $maxPerPage = 3;
-        $currPage = intval($request->query->get('page'));
+        $currPage = $request->query->get('page');
         
-        $sortBy = $request->query->get('sort');
+        $field = $request->query->get('field');
+
+        $sort = $request->query->get('sort');
         // dd($sortBy);
 
-        $queryBuilder = $userRepository->findByFilter($form->getData(), $request->get('order_by', $sortBy) );
+        $url = $request->getUri();
+        $r = parse_url($url);
+
+        //Великий Кусок кода
+            // dd($r['query']);
+            parse_str($r['query'], $output);
+
+            // dd($output);
+            // dd(
+                http_build_query($output);
+            // );
+
+
+        if( isset($form->getData()['per_page'] ))
+        {
+            $maxPerPage = intval($form->getData()['per_page']);
+        }
+        
+        // dd($r);
+
+        $queryBuilder = $userRepository->findByFilter($form->getData(), $request->get('field', $field), $request->get('order_by', $sort) );
         $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
         $pagerfanta->setMaxPerPage($maxPerPage);
   
         if($currPage != null){
-            $pagerfanta->setCurrentPage($currPage);
+            $pagerfanta->setCurrentPage(intval($currPage));
         }
         
         return $this->render(
