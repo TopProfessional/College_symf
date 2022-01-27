@@ -2,9 +2,10 @@
 
 namespace App\Twig;
 
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use Symfony\Component\HttpFoundation\RequestStack;
+
 
 class SortExtension extends AbstractExtension
 {
@@ -30,37 +31,32 @@ class SortExtension extends AbstractExtension
      *
      * @return string
      */
-    public function generateSortUrl(string $param, string $sort, string $curUrl): string
+    public function generateSortUrl(string $param, string $sort): string
     {
         $request = $this->requestStack->getMasterRequest();
-        $parseUrl = parse_url(/*$request*/$curUrl);
+        $curUrl = $request->getUri();  
+        $parseUrl = parse_url($curUrl);
         $responseUrl = '';
         $output = [];
         
         $path = $parseUrl['path'];
-        // dd($ji);
 
-        if(isset($parseUrl['query'])){
+        if(isset($parseUrl['query'])) {
             
             parse_str($parseUrl['query'], $output);
-
-            // $output['field']=$param;
-            // $output['sort']=$sort;
             $responseUrl = $this->addParamToUrl($path,$param, $sort, $output);
         } else {
 
-            // $output['field']=$param;
-            // $output['sort']=$sort;
             $responseUrl = $this->addParamToUrl($path,$param, $sort, $output);
         }
 
         return  $responseUrl; 
     }
 
-    private function addParamToUrl(string $path,string $param, string $sort, array $output)
+    private function addParamToUrl(string $path, string $param, string $sort, array $output)
     {
         $output['field']=$param;
         $output['sort']=$sort;
-        return /*'users?'*/$path.'?'.http_build_query($output);
+        return $path.'?'.http_build_query($output);
     }
 }

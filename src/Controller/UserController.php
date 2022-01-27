@@ -14,9 +14,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
+
 
 /**
  * @Route("/users")
@@ -38,28 +40,31 @@ class UserController extends AbstractController
         $form = $this->createForm(UserFilterType::class, null, ['action' => $this->generateUrl('user_index')]);
         $form->handleRequest($request);
        
-        $maxPerPage = 3;
         $currPage = $request->query->get('page');
         $field = $request->query->get('field');
         $sort = $request->query->get('sort');
-        $url = $request->getUri();          
 
-        if( isset($form->getData()['per_page'] )) {
-            $maxPerPage = intval($form->getData()['per_page']);
+        $maxPerPage = (int) ($form->getData()['per_page'] ?? 3);
+        
+        $queryBuilder = $userRepository->findByFilter($form->getData(), $field, $sort );
+        
+        if(is_null($queryBuilder)) {
+            throw new BadRequestHttpException('Bad Request', null, 400);
         }
         
-        $queryBuilder = $userRepository->findByFilter($form->getData(), $request->get('field', $field), $request->get('order_by', $sort) );
         $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
         $pagerfanta->setMaxPerPage($maxPerPage);
+
+        // dd($queryBuilder->getQuery()->getSQL());
   
         if($currPage != null) {
-            $pagerfanta->setCurrentPage(intval($currPage));
+            $pagerfanta->setCurrentPage( (int) $currPage);
         }
         
         return $this->render(
             'user/index.html.twig',
             [
-                'curUrl' => $url,
+                // 'curUrl' => $url,
                 'pager' => $pagerfanta,
                 'form' => $form->createView(),
             ]
