@@ -14,21 +14,21 @@
         <thead>
             <tr>
                 <th>
-                    <a href="{{generate('email', 'ASC', curUrl, responseUrl)}}">email_up</a>
-                    <a href="{{generate('email', 'DESC', curUrl, responseUrl)}}">email_down</a>
+                    <a href="{{generateSortUrl('email', 'ASC', curUrl)}}">email_up</a>
+                    <a href="{{generateSortUrl('email', 'DESC', curUrl)}}">email_down</a>
                 </th>                
                 <th>
-                    <a href="{{generate('roles', 'ASC', curUrl, responseUrl)}}">roles_up</a>
-                    <a href="{{generate('roles', 'DESC', curUrl, responseUrl)}}">roles_down</a>
+                    <a href="{{generateSortUrl('roles', 'ASC', curUrl)}}">roles_up</a>
+                    <a href="{{generateSortUrl('roles', 'DESC', curUrl)}}">roles_down</a>
                 </th>  
                 <th>
-                    <a href="{{generate('username', 'ASC', curUrl, responseUrl)}}">Name_up</a>
-                    <a href="{{generate('username', 'DESC', curUrl, responseUrl)}}">Name_down</a>
+                    <a href="{{generateSortUrl('username', 'ASC', curUrl)}}">Name_up</a>
+                    <a href="{{generateSortUrl('username', 'DESC', curUrl)}}">Name_down</a>
                 </th>  
                 <th>Password</th>
                 <th>
-                    <a href="{{generate('id', 'ASC', curUrl, responseUrl)}}">id_up</a>
-                    <a href="{{generate('id', 'DESC', curUrl, responseUrl)}}">id_down</a>
+                    <a href="{{generateSortUrl('id', 'ASC', curUrl)}}">id_up</a>
+                    <a href="{{generateSortUrl('id', 'DESC', curUrl)}}">id_down</a>
                 </th>  
                 <th>actions</th>
             </tr>
