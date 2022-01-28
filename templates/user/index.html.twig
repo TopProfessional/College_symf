@@ -15,23 +15,23 @@
             <tr>
                 <th>
                     <a href="{{generateSortUrl('email')}}">
-                        email {% if (generateArrow('email') == 'up') %}&#9650;{% elseif (generateArrow('email') == 'down') %}&#9660;{% endif %}
+                        email {% if (getArrowDirection('email') == 'up') %}&#9650;{% elseif (getArrowDirection('email') == 'down') %}&#9660;{% endif %}
                     </a>
                 </th>                
                 <th>
                     <a href="{{generateSortUrl('roles')}}">
-                        roles {% if (generateArrow('roles') == 'up') %}&#9650;{% elseif (generateArrow('roles') == 'down') %}&#9660;{% endif %}
+                        roles {% if (getArrowDirection('roles') == 'up') %}&#9650;{% elseif (getArrowDirection('roles') == 'down') %}&#9660;{% endif %}
                     </a>
                 </th>  
                 <th>
                     <a href="{{generateSortUrl('username')}}">
-                        Name {% if (generateArrow('username') == 'up') %}&#9650;{% elseif (generateArrow('username') == 'down') %}&#9660;{% endif %}
+                        Name {% if (getArrowDirection('username') == 'up') %}&#9650;{% elseif (getArrowDirection('username') == 'down') %}&#9660;{% endif %}
                     </a>
                 </th>  
                 <th>Password</th>
                 <th>
                     <a href="{{generateSortUrl('id')}}">
-                        id {% if (generateArrow('id') == 'up') %}&#9650;{% elseif (generateArrow('id') == 'down') %}&#9660;{% endif %}
+                        id {% if (getArrowDirection('id') == 'up') %}&#9650;{% elseif (getArrowDirection('id') == 'down') %}&#9660;{% endif %}
                     </a>
                 </th>  
                 <th>actions</th>
