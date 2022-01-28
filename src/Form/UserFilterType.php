@@ -25,7 +25,6 @@ class UserFilterType extends AbstractType
                     'expanded' => false,
                     'required' => false,
                     'choices' => [
-                        // 'All' => null,
                         'Admin' => User::ROLE_ADMIN,
                         'Teacher' => User::ROLE_TEACHER,
                         'Student' => User::ROLE_STUDENT,

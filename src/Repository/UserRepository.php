@@ -6,7 +6,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-
+use Doctrine\Common\Collections\Criteria;
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
@@ -22,10 +22,12 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * @param array<string,mixed> $filter
+     * @param string $field - sort param
+     * @param string $sort - order by
      *
-     * @return QueryBuilder
+     * @return ?QueryBuilder
      */
-    public function findByFilter(?array $filter, $field = null, $sort = null): QueryBuilder
+    public function findByFilter(?array $filter, $field = null, $sort = null): ?QueryBuilder
     {
         $filter ??= [];
         $qb = $this->createQueryBuilder('users');
@@ -44,18 +46,17 @@ class UserRepository extends ServiceEntityRepository
         if ($conditions->count()) {
             $qb->andWhere($conditions);
         }
+        
+        $params = ['email', 'roles', 'username', 'id'];
+        $orderBy = [Criteria::DESC, Criteria::ASC];
 
-        if(($field === 'email' || $field === 'roles' || $field === 'username' || $field === 'id') && ($sort === 'DESC' || $sort === 'ASC')) {
+        if (in_array($field, $params, true) && in_array(strtoupper($sort), $orderBy, true)) {
             $qb->orderBy('users.'.$field, $sort);
-
-        } elseif($field === null && $sort === null) {
-            return $qb;
-
-        } else {
-            http_response_code(400);
-            throw new \Exception('Bad Request - '.http_response_code());
-
+            
+        } elseif ( $field !== null && $sort !== null) {
+            throw new  \InvalidArgumentException();
         }
+
         return $qb;
     }
 }

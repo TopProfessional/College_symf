@@ -2,43 +2,69 @@
 
 namespace App\Twig;
 
+use Symfony\debug\Exception\FatalErrorException;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class SortExtension extends AbstractExtension
 {
-    public function getFunctions()
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
+    public function getFunctions(): array
     {
         return [
-            new TwigFunction('generate', [$this, 'generateSortUrl']),
+            new TwigFunction('generateSortUrl', [$this, 'generateSortUrl']),
         ];
     }
 
     /**
      * @param string $param - sort atribure
      * @param string $sort - order by
-     * @param string $curUrl - current url
-     * @param string $responseUrl - generated url
      *
      * @return string
      */
-    public function generateSortUrl(string $param, string $sort, string $curUrl, string $responseUrl): string
+    public function generateSortUrl(string $param, string $sort): string
     {
-        $parseUrl = parse_url($curUrl);
+        $request = $this->requestStack->getMasterRequest();
+        $currentUrl = $request->getUri();  
 
-        if(isset($parseUrl['query'])){
-
-            parse_str($parseUrl['query'], $output);
-            $output['field']=$param;
-            $output['sort']=$sort;
-            $responseUrl = 'users?'.http_build_query($output);
-        } else {
-
-            $output['field']=$param;
-            $output['sort']=$sort;
-            $responseUrl = 'users?'.http_build_query($output);
+        try { 
+            if(is_null($currentUrl)) {
+                throw new FatalErrorException('undefined url');
+            }
+        } catch ( \Exception $e) {
+            echo 'Exception is: ',  $e->getMessage(), "\n";
         }
+        
+        $parseUrl = parse_url($currentUrl);
+        $output = [];
+        $path = $parseUrl['path'];
 
-        return  $responseUrl; 
+        if(isset($parseUrl['query'])) {
+            parse_str($parseUrl['query'], $output);
+        } 
+        
+        return $this->addParamToUrl($path, $param, $sort, $output);
+    }
+
+    /**
+     * @param string $path - path of url
+     * @param string $param - sort atribure
+     * @param string $sort - order by
+     * @param array<string, string|int> $output 
+     * 
+     * @return string
+     */
+    private function addParamToUrl(string $path, string $param, string $sort, array $output): string
+    {
+        $output['field'] = $param;
+        $output['sort'] = $sort;
+        return $path.'?'.http_build_query($output);
     }
 }
