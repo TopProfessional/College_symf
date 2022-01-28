@@ -14,21 +14,25 @@
         <thead>
             <tr>
                 <th>
-                    <a href="{{generateSortUrl('email', 'ASC')}}">email_up &#9650;</a>
-                    <a href="{{generateSortUrl('email', 'DESC')}}">email_down</a>
+                    <a href="{{generateSortUrl('email')}}">
+                        email {% if (generateArrow('email') == 'up') %}&#9650;{% elseif (generateArrow('email') == 'down') %}&#9660;{% endif %}
+                    </a>
                 </th>                
                 <th>
-                    <a href="{{generateSortUrl('roles', 'ASC')}}">roles_up</a>
-                    <a href="{{generateSortUrl('roles', 'DESC')}}">roles_down</a>
+                    <a href="{{generateSortUrl('roles')}}">
+                        roles {% if (generateArrow('roles') == 'up') %}&#9650;{% elseif (generateArrow('roles') == 'down') %}&#9660;{% endif %}
+                    </a>
                 </th>  
                 <th>
-                    <a href="{{generateSortUrl('username', 'ASC')}}">Name_up</a>
-                    <a href="{{generateSortUrl('username', 'DESC')}}">Name_down</a>
+                    <a href="{{generateSortUrl('username')}}">
+                        Name {% if (generateArrow('username') == 'up') %}&#9650;{% elseif (generateArrow('username') == 'down') %}&#9660;{% endif %}
+                    </a>
                 </th>  
                 <th>Password</th>
                 <th>
-                    <a href="{{generateSortUrl('id', 'ASC')}}">id_up</a>
-                    <a href="{{generateSortUrl('id', 'DESC')}}">id_down</a>
+                    <a href="{{generateSortUrl('id')}}">
+                        id {% if (generateArrow('id') == 'up') %}&#9650;{% elseif (generateArrow('id') == 'down') %}&#9660;{% endif %}
+                    </a>
                 </th>  
                 <th>actions</th>
             </tr>
