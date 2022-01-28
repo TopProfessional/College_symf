@@ -45,19 +45,17 @@ class UserController extends AbstractController
         $sort = $request->query->get('sort');
 
         $maxPerPage = (int) ($form->getData()['per_page'] ?? 3);
-        
-        $queryBuilder = $userRepository->findByFilter($form->getData(), $field, $sort );
-        
-        if(is_null($queryBuilder)) {
-            throw new BadRequestHttpException('Bad Request', null, 400);
+            
+        try { 
+            $queryBuilder = $userRepository->findByFilter($form->getData(), $field, $sort );
+        } catch ( \Exception $e) {
+            throw new BadRequestHttpException('Bad Request');
         }
         
         $pagerfanta = new Pagerfanta(new QueryAdapter($queryBuilder));
         $pagerfanta->setMaxPerPage($maxPerPage);
-
-        // dd($queryBuilder->getQuery()->getSQL());
   
-        if($currPage != null) {
+        if($currPage !== null) {
             $pagerfanta->setCurrentPage( (int) $currPage);
         }
         

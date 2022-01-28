@@ -22,13 +22,14 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * @param array<string,mixed> $filter
+     * @param string $field - sort param
+     * @param string $sort - order by
      *
      * @return ?QueryBuilder
      */
     public function findByFilter(?array $filter, $field = null, $sort = null): ?QueryBuilder
     {
         $filter ??= [];
-        $return = '';
         $qb = $this->createQueryBuilder('users');
         $conditions = $qb->expr()->orX();
 
@@ -45,19 +46,17 @@ class UserRepository extends ServiceEntityRepository
         if ($conditions->count()) {
             $qb->andWhere($conditions);
         }
-
+        
         $params = ['email', 'roles', 'username', 'id'];
-        if (in_array($field, $params) && ( strtoupper($sort) === Criteria::DESC || strtoupper($sort) === Criteria::ASC)) {
+        $orderBy = [Criteria::DESC, Criteria::ASC];
+
+        if (in_array($field, $params, true) && in_array(strtoupper($sort), $orderBy, true)) {
             $qb->orderBy('users.'.$field, $sort);
-            $return = $qb;
-
-        } elseif ( $field === null && $sort === null) {
-            $return = $qb;
-
-        } else {
-            $return = null;
+            
+        } elseif ( $field !== null && $sort !== null) {
+            throw new  \InvalidArgumentException();
         }
 
-        return $return;
+        return $qb;
     }
 }
