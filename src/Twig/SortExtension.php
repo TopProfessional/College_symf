@@ -107,8 +107,6 @@ class SortExtension extends AbstractExtension
             echo 'Exception is: ',  $e->getMessage(), "\n";
         }
 
-        dd(parse_url($currentUrl));
-
         return parse_url($currentUrl);
     }
 }
