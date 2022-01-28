@@ -91,6 +91,9 @@ class SortExtension extends AbstractExtension
         return $path.'?'.http_build_query($output);
     }
 
+    /** 
+     * @return array<string>
+     */
     private function parseUrl(): array
     {
         $request = $this->requestStack->getMasterRequest();
@@ -103,6 +106,8 @@ class SortExtension extends AbstractExtension
         } catch ( \Exception $e) {
             echo 'Exception is: ',  $e->getMessage(), "\n";
         }
+
+        dd(parse_url($currentUrl));
 
         return parse_url($currentUrl);
     }
