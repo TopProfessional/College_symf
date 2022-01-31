@@ -28,7 +28,6 @@
                         Name {% if (getArrowDirection('username') == 'up') %}&#9650;{% elseif (getArrowDirection('username') == 'down') %}&#9660;{% endif %}
                     </a>
                 </th>  
-                {# <th>Password</th> #}
                 <th>
                     <a href="{{generateSortUrl('id')}}">
                         id {% if (getArrowDirection('id') == 'up') %}&#9650;{% elseif (getArrowDirection('id') == 'down') %}&#9660;{% endif %}
@@ -43,7 +42,6 @@
                     <td>{{ user.email }}</td>
                     <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                     <td>{{ user.username }}</td>
-                    {# <td>{{ user.password }}</td> #}
                     <td>{{ user.id }}</td>
                     <td>
                         <a href="{{ path('user_show', {'id': user.id}) }}">show</a>

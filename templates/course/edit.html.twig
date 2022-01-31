@@ -13,11 +13,11 @@
 {% block body %}
     <h1>{{ block('title') }}</h1>
 
-    {{ include('course/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('partial/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('course_index') }}">back to list</a>
 
     {% if not isNew %}
-        {{ include('course/_delete_form.html.twig') }}
+        {{ include('partial/_delete_form.html.twig', {delete_route: 'course_delete', entity: course}) }}
     {% endif %}
 {% endblock %}
