@@ -11,6 +11,12 @@ import './scss/app.scss';
 //console.log('Hi!, dude');
 import getNiceMessage  from './js/get_nice_message';
 
+//import bootstarp 4
+import 'bootstrap';
+
+//pagerfanta styles
+import '../public/bundles/babdevpagerfanta/css/pagerfanta.css';
+
 import $ from 'jquery';
 
 //global.$ = $;
