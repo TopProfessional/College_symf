@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Common\Collections\Criteria;
+
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
@@ -21,13 +22,11 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array<string,mixed> $filter
-     * @param string $field - sort param
-     * @param string $sort - order by
+     * @param array<string,mixed>|null $filter
      *
-     * @return ?QueryBuilder
+     * @return QueryBuilder
      */
-    public function findByFilter(?array $filter, $field = null, $sort = null): ?QueryBuilder
+    public function findByFilter(?array $filter, $field = null, $sort = null): QueryBuilder
     {
         $filter ??= [];
         $qb = $this->createQueryBuilder('users');

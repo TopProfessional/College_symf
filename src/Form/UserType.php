@@ -30,10 +30,9 @@ class UserType extends AbstractType
                     ],
                 ]
             )
-            ->add('username')
+            ->add('username', null, ['error_bubbling' => true,])
             ->add('password');
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {

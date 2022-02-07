@@ -1,3 +1,16 @@
+@import "~bootstrap/scss/bootstrap";
 body {
     background-color: lightyellow;
+}
+.table{
+    max-width: 800px;
+}
+.table td,
+.table th{
+    border: 1px solid #dee2e6;
+}
+
+// style for 'form/david_theme.html.twig'
+.user-filter-form{
+    margin-left: 10px;
 }

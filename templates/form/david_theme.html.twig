@@ -1,0 +1,9 @@
+{% block form_row -%}
+    {%- set widget_attr = {attr: {'aria-describedby': 'not_discribed_yet'}} -%}
+        <div{% with { attr: {class:'user-filter-form form-group'}} %}{{ block('attributes') }}{% endwith %}>
+            {{- form_label(form) -}}
+            <div class="custom-input-wrap">
+                {{- form_widget(form, widget_attr) -}}
+            </div>
+        </div>
+{%- endblock form_row %}
