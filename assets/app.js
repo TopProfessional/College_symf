@@ -8,12 +8,15 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './scss/app.scss';
 
-//console.log('Hi!, dude');
 import getNiceMessage  from './js/get_nice_message';
 
-import $ from 'jquery';
+//import bootstarp 4
+import 'bootstrap';
 
-//global.$ = $;
+//import pagerfanta styles
+import '../public/bundles/babdevpagerfanta/css/pagerfanta.css';
+
+import $ from 'jquery';
 
 $(document).ready(function(){
     $("button").click(function(){

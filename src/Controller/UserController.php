@@ -62,7 +62,6 @@ class UserController extends AbstractController
         return $this->render(
             'user/index.html.twig',
             [
-                // 'curUrl' => $url,
                 'pager' => $pagerfanta,
                 'form' => $form->createView(),
             ]
