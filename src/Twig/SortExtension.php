@@ -3,7 +3,7 @@
 namespace App\Twig;
 
 use Doctrine\Common\Collections\Criteria;
-use Symfony\debug\Exception\FatalErrorException;
+use Symfony\Component\Asset\Exception\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -34,19 +34,16 @@ class SortExtension extends AbstractExtension
     public function generateSortUrl(string $param): string
     {
         $sort = Criteria::ASC;
-        $parseUrl = $this->parseUrl();
+        $parsedUrl = $this->getParsedUrl();
         $output = [];
-        $path = $parseUrl['path'];
+        $path = $parsedUrl['path'];
 
-        if(isset($parseUrl['query'])) {
-            parse_str($parseUrl['query'], $output);
+        if(isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $output);
 
-            if(isset($output['sort'])) {
-
-                if(strtoupper($output['sort']) === $sort && $output['field'] === $param) {
+                if(isset($output['sort']) && strtoupper($output['sort']) === $sort && ($output['field'] ?? null) === $param) {
                     $sort = Criteria::DESC;
                 }
-            }
         } 
         return $this->addParamToUrl($path, $param, $sort, $output);
     }
@@ -58,17 +55,16 @@ class SortExtension extends AbstractExtension
      */
     public function getArrowDirection(string $param): ?string
     {
-        $parseUrl = $this->parseUrl();
-        if(isset($parseUrl['query'])) {
-            parse_str($parseUrl['query'], $output);
+        $parsedUrl = $this->getParsedUrl();
+        if(isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $output);
 
             if(isset($output['sort'])) {
 
                 if(strtoupper($output['sort']) === Criteria::DESC && $output['field'] === $param) {
-
                     return 'down';
-                } elseif (strtoupper($output['sort']) === Criteria::ASC && $output['field'] === $param) {
-
+                } 
+                if (strtoupper($output['sort']) === Criteria::ASC && $output['field'] === $param) {
                     return 'up';
                 }
             }
@@ -94,14 +90,14 @@ class SortExtension extends AbstractExtension
     /** 
      * @return array<string>
      */
-    private function parseUrl(): array
+    private function getParsedUrl(): array
     {
         $request = $this->requestStack->getMasterRequest();
         $currentUrl = $request->getUri();
 
-        try { 
+        try {
             if(is_null($currentUrl)) {
-                throw new FatalErrorException('undefined url');
+                throw new InvalidArgumentException('undefined url');
             }
         } catch ( \Exception $e) {
             echo 'Exception is: ',  $e->getMessage(), "\n";
