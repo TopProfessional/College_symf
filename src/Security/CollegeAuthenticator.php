@@ -53,6 +53,11 @@ class CollegeAuthenticator extends AbstractFormLoginAuthenticator implements Pas
 
     public function getCredentials(Request $request): array
     {
+        // try {
+        //     $sessionHandlerService->createTable();
+        // } catch (\PDOException $exception) {
+        //     // the table could not be created for some reason
+        // }
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),

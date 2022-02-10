@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
 
-
+use Symfony\Component\Security\Core\Security;
 /**
  * @Route("/users")
  */
@@ -62,6 +62,7 @@ class UserController extends AbstractController
         return $this->render(
             'user/index.html.twig',
             [
+                'ses' => $request->getSession()->get(Security::LAST_USERNAME),
                 'pager' => $pagerfanta,
                 'form' => $form->createView(),
             ]
