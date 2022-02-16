@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * @Route("/students")
  */
@@ -22,9 +23,10 @@ class StudentController extends AbstractController
 {
     private DeleteEntityObjectHelper $deleteEntity;
 
-    public function __construct(DeleteEntityObjectHelper $deleteEntity)
+    public function __construct(DeleteEntityObjectHelper $deleteEntity, SessionInterface $session)
     {
         $this->deleteEntity = $deleteEntity;
+        $this->session = $session;
     }
 
     /**
@@ -32,9 +34,12 @@ class StudentController extends AbstractController
      */
     public function index(StudentRepository $studentRepository): Response
     {
+        $trySession = $this->session->get('try_session') ?? '';
+
         return $this->render(
             'student/index.html.twig',
             [
+                'try_session' => $trySession,
                 'students' => $studentRepository->findAll(),
             ]
         );
