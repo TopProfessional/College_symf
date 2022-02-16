@@ -18,8 +18,9 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Pagerfanta;
-
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 /**
  * @Route("/users")
  */
@@ -27,9 +28,10 @@ class UserController extends AbstractController
 {
     private DeleteEntityObjectHelper $deleteEntity;
 
-    public function __construct(DeleteEntityObjectHelper $deleteEntity)
+    public function __construct(DeleteEntityObjectHelper $deleteEntity, SessionInterface $session)
     {
         $this->deleteEntity = $deleteEntity;
+        $this->session = $session;
     }
 
     /**
@@ -59,10 +61,17 @@ class UserController extends AbstractController
             $pagerfanta->setCurrentPage( (int) $currPage);
         }
         
+        $session = $form->getData()['session'] ?? null;
+
+        if(!is_null($session))
+        {
+            $this->session->set('try_session', $session);
+        }
+
         return $this->render(
             'user/index.html.twig',
             [
-                'ses' => $request->getSession()->get(Security::LAST_USERNAME),
+                'email' => $request->getSession()->get(Security::LAST_USERNAME),
                 'pager' => $pagerfanta,
                 'form' => $form->createView(),
             ]
