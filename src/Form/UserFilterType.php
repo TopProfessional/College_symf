@@ -17,6 +17,7 @@ class UserFilterType extends AbstractType
         $builder
             ->add('per_page', null, ['required' => false])
             ->add('search', null, ['required' => false])
+            ->add('session', null, ['required' => false])
             ->add(
                 'role',
                 ChoiceType::class,

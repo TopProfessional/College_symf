@@ -50,3 +50,10 @@ services:
 
     # Service for DeleteEntityObject
     App\Service\DeleteEntityObjectHelper:
+
+
+    # Include sessions in DB
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'
+            - { db_table: 'customer_sessions' }

@@ -10,6 +10,17 @@ body {
     border: 1px solid #dee2e6;
 }
 
+.center-login-form{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-login{
+    margin: 5% 22%;
+}
+
 // style for 'form/david_theme.html.twig'
 .user-filter-form{
     margin-left: 10px;
