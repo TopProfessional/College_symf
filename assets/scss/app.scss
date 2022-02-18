@@ -21,6 +21,30 @@ body {
     margin: 5% 22%;
 }
 
+.header_menu li{
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.current-menu-page{
+    background-color: #b15a1c;
+    padding: 5px 10px;
+}
+
+.current-menu-page a{
+    color: #ffffff;
+}
+
+.user_links{
+    position: absolute;
+    top: 5px;
+    left: 540px;
+}
+
+.user_links a{
+    margin-left: 10px;
+}
+
 // style for 'form/david_theme.html.twig'
 .user-filter-form{
     margin-left: 10px;

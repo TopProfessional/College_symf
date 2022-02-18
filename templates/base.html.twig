@@ -2,25 +2,31 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>
+            {% block title %}
+                Welcome!
+            {% endblock %}
+        </title>
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {{renderMenu()}}
+        {% endif %}
 
+        <div class='user_links'>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                <br/>
-                <br/>
                 <a href="{{ path('app_logout') }}">Logout</a>
                 {% if (app.request.pathinfo != path('user_cabinet')) %}
-                    <br/>
-                    <br/>
                     <a href="{{ path('user_cabinet') }}">Cabinet</a>
                 {% endif %}
             {% endif %}
+        </div>
+
+        {% block body %}{% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
