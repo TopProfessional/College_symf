@@ -12,7 +12,7 @@ use Twig\Environment;
 class MenuExtension extends AbstractExtension
 {
     private RequestStack $requestStack;
-    private $security;
+    private Security $security;
 
     public function __construct(Security $security, RequestStack $requestStack)
     {
@@ -31,113 +31,103 @@ class MenuExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param Environment $environment - Instances of this class are used to load templates.
-     * 
-     * @return string
-     */
     public function renderMenu(Environment $environment): string
+    {
+        $items = $this->getItems();
+        $sortedItems = $this->sortItems($items);
+
+        return $environment->render(
+            'partial/_menu.html.twig',
+            [
+               'items' => $sortedItems,
+            ]
+        );
+    }
+
+    /**
+     * @param array<array<string,string|bool>> $items
+     */
+    private function sortItems(array $items): array
+    {
+        $request = $this->requestStack->getMasterRequest();
+        $requestedRoute = $request->attributes->get('_route');
+
+        foreach($items as $item) {
+            if($item['route_name'] === $requestedRoute || strstr($requestedRoute, $item['children_routes_prefix']) !== false) {
+                $item['style_class_name'] = 'active-link';
+            }
+            $sortedItems[] = $item;
+        }
+        return $sortedItems;
+    }
+
+    /**
+     * @return array<array<string,string|bool>>
+     */
+    private function getItems(): array
     {
         $items = [];
 
         $courses = [
-            'name' => 'courses',
             'label' => 'Courses',
-            'path' => 'course_index',
+            'route_name' => 'course_index',
+            'children_routes_prefix' => 'course_',
+            'style_class_name' => '',
         ];
 
         $users = [
-            'name' => 'users',
             'label' => 'Users',
-            'path' => 'user_index',
+            'route_name' => 'user_index',
+            'children_routes_prefix' => 'user_',
+            'style_class_name' => '',
         ];
 
         $teachers = [
-            'name' => 'teachers',
             'label' => 'Teachers',
-            'path' => 'teacher_index',
+            'route_name' => 'teacher_index',
+            'children_routes_prefix' => 'teacher_',
+            'style_class_name' => '',
         ];
 
         $students = [
-            'name' => 'students',
             'label' => 'Students',
-            'path' => 'student_index',
+            'route_name' => 'student_index',
+            'children_routes_prefix' => 'student_',
+            'style_class_name' => '',
         ];
 
         $classes = [
-            'name' => 'classes',
             'label' => 'Classes',
-            'path' => 'classes_index',
+            'route_name' => 'classes_index',
+            'children_routes_prefix' => 'classes_',
+            'style_class_name' => '',
         ];
 
         $marks = [
-            'name' => 'marks',
             'label' => 'Marks',
-            'path' => 'mark_index',
+            'route_name' => 'mark_index',
+            'children_routes_prefix' => 'mark_',
+            'style_class_name' => '',
         ];
         
         $user = $this->security->getUser();
-        $currentUserRoles = $user->getRoles();
 
-        if (in_array(User::ROLE_ADMIN, $currentUserRoles, true)) {
-
-            //add arrays to $items[]
-            array_push($items, $courses, $users, $teachers, $students, $classes, $marks);
-
-            return $this->returnRender($environment, $items);
+        if ($user->hasRole(User::ROLE_ADMIN)) {
+            $items = [$courses, $users, $teachers, $students, $classes, $marks];
+            return $items;
         }
 
-        if (in_array(User::ROLE_TEACHER, $currentUserRoles, true)) {
-
-            //add arrays to $items[]
-            array_push($items, $courses, $teachers, $students, $classes, $marks);
-
-            return $this->returnRender($environment, $items);
+        if ($user->hasRole(User::ROLE_TEACHER)) {
+            $items = [$courses, $teachers, $students, $classes, $marks];
+            return $items;
         }
 
-        if (in_array(User::ROLE_STUDENT, $currentUserRoles, true)) {
-            
-            //add arrays to $items[]
-            array_push($items, $courses, $teachers, $students, $classes, $marks);
-
-            return $this->returnRender($environment, $items);
+        if ($user->hasRole(User::ROLE_STUDENT)) {
+            $items = [$courses, $teachers, $students, $classes, $marks];
+            return $items;
         }
 
-        //add arrays to $items[]
-        array_push($items, $courses, $teachers, $students, $classes, $marks);
-
-        return $this->returnRender($environment, $items);
-    }
-
-    /**
-     * @param string $name - name of page
-     * 
-     * @return string
-     */
-    public function getCurrentStyle($name): string
-    {
-        $request = $this->requestStack->getMasterRequest();
-        $currentUrl = $request->getUri();
-
-        if(strstr($currentUrl, $name) !== false) {
-            return 'current-menu-page';
-        }
-        return 'menu-page';
-    }
-   
-    /**
-     * @param Environment $environment - Instances of this class are used to load templates.
-     * @param array $items - array container.
-     * 
-     * @return string
-     */
-    private function returnRender(Environment $environment, array $items): string
-    {
-        return $environment->render(
-            'partial/_menu.html.twig',
-            [
-               'items' => $items,
-            ]
-        );
-    }
+        $items = [$courses, $teachers, $students, $classes, $marks];
+        return $items;
+    }    
 }

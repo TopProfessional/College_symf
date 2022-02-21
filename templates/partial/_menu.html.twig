@@ -1,8 +1,8 @@
 <div>
-    <ul class='header_menu'>
+    <ul class="header_menu">
         {% for item in items %}
-            <li class='{{getCurrentStyle(item.name)}}'>
-                <a href='{{path(item.path)}}'>{{item.label}}<a/>
+            <li class="{{item.class}}">
+                <a href="{{path(item.route_name)}}">{{item.label}}</a>
             </li>
         {% endfor %}
     </ul>

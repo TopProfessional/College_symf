@@ -4,10 +4,10 @@ body {
 }
 .table{
     max-width: 800px;
-}
-.table td,
-.table th{
-    border: 1px solid #dee2e6;
+    td,
+    th{
+        border: 1px solid #dee2e6;
+    }
 }
 
 .center-login-form{
@@ -26,23 +26,21 @@ body {
     margin-left: 10px;
 }
 
-.current-menu-page{
+.active-link{
     background-color: #b15a1c;
     padding: 5px 10px;
-}
-
-.current-menu-page a{
-    color: #ffffff;
+    a{
+        color: #ffffff;
+    }
 }
 
 .user_links{
     position: absolute;
     top: 5px;
     left: 540px;
-}
-
-.user_links a{
-    margin-left: 10px;
+    a{
+        margin-left: 10px;
+    }
 }
 
 // style for 'form/david_theme.html.twig'
