@@ -99,6 +99,15 @@ class User implements UserInterface, IdentifiableInterface
         return $this;
     }
 
+    public function hasRole(string $role): bool
+    {
+        if(in_array($role, $this->getRoles(), true))
+        {
+            return true;
+        }    
+        return false;
+    }
+
     /**
      * @see UserInterface
      */

@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class UserController extends AbstractController
 {
     private DeleteEntityObjectHelper $deleteEntity;
+    private SessionInterface $session;
 
     public function __construct(DeleteEntityObjectHelper $deleteEntity, SessionInterface $session)
     {
