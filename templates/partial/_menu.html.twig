@@ -1,7 +1,7 @@
 <div>
     <ul class="header_menu">
         {% for item in items %}
-            <li class="{{item.class}}">
+            <li class="{{item.style_class_name}}">
                 <a href="{{path(item.route_name)}}">{{item.label}}</a>
             </li>
         {% endfor %}
