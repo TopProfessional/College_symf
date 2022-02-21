@@ -17,7 +17,7 @@
             {{renderMenu()}}
         {% endif %}
 
-        <div class='user_links'>
+        <div class='user-links'>
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 <a href="{{ path('app_logout') }}">Logout</a>
                 {% if (app.request.pathinfo != path('user_cabinet')) %}
