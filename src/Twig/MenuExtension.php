@@ -129,5 +129,5 @@ class MenuExtension extends AbstractExtension
 
         $items = [$courses, $teachers, $students, $classes, $marks];
         return $items;
-    }    
+    }
 }
